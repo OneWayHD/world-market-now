@@ -38,14 +38,15 @@ h1 {
   background: #0ea5e9;
 }
 
-/* チャートコンテナ */
+/* チャートコンテナ：スマホでも2カラム対応 */
 #chart-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
   padding: 20px;
 }
 
+/* チャートカード */
 .chart-card {
   background: #fff;
   border-radius: 12px;
@@ -54,15 +55,17 @@ h1 {
   text-align: center;
 }
 
+/* カードタイトル */
 .chart-title {
   margin-bottom: 12px;
   font-size: 1rem;
   font-weight: bold;
 }
 
+/* グラフキャンバス */
 canvas {
   width: 100% !important;
-  height: 200px !important;
+  height: 180px !important;
 }
 
 /* フッター */
