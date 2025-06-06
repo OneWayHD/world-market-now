@@ -1,10 +1,62 @@
-// 毎時更新時にサーバー側から自動的に書き換えられる想定
-
-const latestData = [
-  { label: "Nikkei 225", prices: [32700, 32900, 32850, 33000], currency: "USD" },
-  { label: "NASDAQ", prices: [13400, 13500, 13300, 13600], currency: "USD" },
-  { label: "Dow Jones", prices: [34300, 34450, 34500, 34380], currency: "USD" },
-  { label: "BTC", prices: [27000, 27200, 27100, 27300], currency: "USD" },
-  { label: "S&P500", prices: [4350, 4370, 4345, 4385], currency: "USD" },
-  { label: "FTSE", prices: [7550, 7580, 7540, 7600], currency: "USD" }
+const indices = [
+  {
+    name: "Dow Jones",
+    flag: "https://flagcdn.com/us.svg",
+    baseValue: 34000
+  },
+  {
+    name: "NASDAQ",
+    flag: "https://flagcdn.com/us.svg",
+    baseValue: 13500
+  },
+  {
+    name: "S&P 500",
+    flag: "https://flagcdn.com/us.svg",
+    baseValue: 4300
+  },
+  {
+    name: "Nikkei 225 (Futures)",
+    flag: "https://flagcdn.com/jp.svg",
+    baseValue: 39000
+  },
+  {
+    name: "DAX (Germany)",
+    flag: "https://flagcdn.com/de.svg",
+    baseValue: 16000
+  },
+  {
+    name: "CAC 40 (France)",
+    flag: "https://flagcdn.com/fr.svg",
+    baseValue: 7300
+  },
+  {
+    name: "FTSE 100 (UK)",
+    flag: "https://flagcdn.com/gb.svg",
+    baseValue: 7600
+  },
+  {
+    name: "Hang Seng",
+    flag: "https://flagcdn.com/hk.svg",
+    baseValue: 18500
+  },
+  {
+    name: "SENSEX (India)",
+    flag: "https://flagcdn.com/in.svg",
+    baseValue: 63000
+  },
+  {
+    name: "KOSPI (Korea)",
+    flag: "https://flagcdn.com/kr.svg",
+    baseValue: 2550
+  },
+  {
+    name: "RTSI (Russia)",
+    flag: "https://flagcdn.com/ru.svg",
+    baseValue: 1100
+  },
+  {
+    name: "ASX 200 (Australia)",
+    flag: "https://flagcdn.com/au.svg",
+    baseValue: 7200
+  }
 ];
