@@ -10,9 +10,9 @@ const exchangeRates = {
 };
 
 // 値をランダムに生成（±0.5%変動）
-function generateRandomChange(value) {
-  const change = value * (Math.random() * 0.01 - 0.005);
-  return value + change;
+function generateRandomChange(base) {
+  const change = base * (Math.random() * 0.01 - 0.005);
+  return base + change;
 }
 
 // チャートを作成
@@ -36,7 +36,7 @@ function createChartCard(indexData) {
 
   const ctx = canvas.getContext("2d");
   const initialValue = indexData.baseValue;
-  const initialData = Array.from({ length: 20 }, (_, i) => generateRandomChange(initialValue));
+  const initialData = Array.from({ length: 20 }, () => generateRandomChange(initialValue));
 
   const chart = new Chart(ctx, {
     type: "line",
@@ -54,11 +54,31 @@ function createChartCard(indexData) {
       responsive: true,
       animation: false,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        annotation: {
+          annotations: {
+            line: {
+              type: 'line',
+              yMin: indexData.baseValue,
+              yMax: indexData.baseValue,
+              borderColor: '#9ca3af',
+              borderWidth: 1,
+              borderDash: [6, 6],
+              label: {
+                enabled: false
+              }
+            }
+          }
+        }
       },
       scales: {
         x: { display: false },
-        y: { display: false }
+        y: {
+          display: true,
+          ticks: {
+            font: { size: 10 }
+          }
+        }
       }
     }
   });
@@ -71,6 +91,7 @@ function updateCharts() {
   charts.forEach(({ chart, info, indexData }) => {
     const lastValue = chart.data.datasets[0].data.at(-1);
     const newValue = generateRandomChange(lastValue);
+    const previousClose = indexData.baseValue;
     const converted = newValue * exchangeRates[currentCurrency];
 
     chart.data.datasets[0].data.push(newValue);
@@ -78,17 +99,19 @@ function updateCharts() {
       chart.data.datasets[0].data.shift();
     }
 
-    // 色変更（赤 or 緑）
-    chart.data.datasets[0].borderColor = newValue >= lastValue ? "#22c55e" : "#ef4444";
+    // 色を前日終値との比較で決定
+    chart.data.datasets[0].borderColor = newValue >= previousClose ? "#22c55e" : "#ef4444";
+    chart.options.plugins.annotation.annotations.line.yMin = previousClose;
+    chart.options.plugins.annotation.annotations.line.yMax = previousClose;
     chart.update();
 
     // 表示更新
-    const percentChange = ((newValue - indexData.baseValue) / indexData.baseValue * 100).toFixed(2);
+    const percentChange = ((newValue - previousClose) / previousClose * 100).toFixed(2);
     const valueDisplay = converted.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
     info.innerHTML = `
       <span>${currentCurrency} ${valueDisplay}</span>
-      <span class="${newValue >= indexData.baseValue ? 'up' : 'down'}">
+      <span class="${newValue >= previousClose ? 'up' : 'down'}">
         ${percentChange}%
       </span>
     `;

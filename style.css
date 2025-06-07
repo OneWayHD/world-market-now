@@ -1,4 +1,3 @@
-/* ベース設定 */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -36,15 +35,13 @@ h1 {
   background-color: #0ea5e9;
 }
 
-/* チャート全体コンテナ */
 #chart-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;
   padding: 20px;
 }
 
-/* 各チャートカード */
 .chart-card {
   background-color: #ffffff;
   border-radius: 12px;
