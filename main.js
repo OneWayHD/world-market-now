@@ -45,9 +45,21 @@ function createChartCard(indexData) {
       datasets: [{
         data: initialData,
         borderWidth: 2,
-        fill: false,
+        fill: true,
         pointRadius: 0,
-        borderColor: "gray"
+        borderColor: "gray",
+        segment: {
+          backgroundColor: ctx => {
+            const y0 = ctx.p0.parsed.y;
+            const y1 = ctx.p1.parsed.y;
+            const base = indexData.baseValue;
+            const above = y0 >= base && y1 >= base;
+            const below = y0 < base && y1 < base;
+            if (above) return 'rgba(34,197,94,0.1)';  // 薄緑
+            if (below) return 'rgba(239,68,68,0.1)';  // 薄赤
+            return 'rgba(0,0,0,0)';
+          }
+        }
       }]
     },
     options: {
@@ -99,7 +111,7 @@ function updateCharts() {
       chart.data.datasets[0].data.shift();
     }
 
-    // 色を前日終値との比較で決定
+    // 線の色：前日比で緑／赤
     chart.data.datasets[0].borderColor = newValue >= previousClose ? "#22c55e" : "#ef4444";
     chart.options.plugins.annotation.annotations.line.yMin = previousClose;
     chart.options.plugins.annotation.annotations.line.yMax = previousClose;

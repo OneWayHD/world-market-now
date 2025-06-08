@@ -42,6 +42,13 @@ h1 {
   padding: 20px;
 }
 
+/* ✅ スマホでも2カラム表示させる */
+@media screen and (max-width: 768px) {
+  #chart-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .chart-card {
   background-color: #ffffff;
   border-radius: 12px;
