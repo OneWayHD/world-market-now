@@ -37,6 +37,11 @@ function createChartCard(indexData) {
   const ctx = canvas.getContext("2d");
   const initialValue = indexData.baseValue;
   const initialData = Array.from({ length: 20 }, () => generateRandomChange(initialValue));
+  const lastValue = initialData.at(-1);
+
+  const isAbove = lastValue >= indexData.baseValue;
+  const lineColor = isAbove ? "#22c55e" : "#ef4444";
+  const fillColor = isAbove ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)";
 
   const chart = new Chart(ctx, {
     type: "line",
@@ -47,19 +52,8 @@ function createChartCard(indexData) {
         borderWidth: 2,
         fill: true,
         pointRadius: 0,
-        borderColor: "gray",
-        segment: {
-          backgroundColor: ctx => {
-            const y0 = ctx.p0.parsed.y;
-            const y1 = ctx.p1.parsed.y;
-            const base = indexData.baseValue;
-            const above = y0 >= base && y1 >= base;
-            const below = y0 < base && y1 < base;
-            if (above) return 'rgba(34,197,94,0.1)';  // 薄緑
-            if (below) return 'rgba(239,68,68,0.1)';  // 薄赤
-            return 'rgba(0,0,0,0)';
-          }
-        }
+        borderColor: lineColor,
+        backgroundColor: fillColor
       }]
     },
     options: {
@@ -111,19 +105,24 @@ function updateCharts() {
       chart.data.datasets[0].data.shift();
     }
 
-    // 線の色：前日比で緑／赤
-    chart.data.datasets[0].borderColor = newValue >= previousClose ? "#22c55e" : "#ef4444";
+    const isAbove = newValue >= previousClose;
+    const fixedLineColor = isAbove ? "#22c55e" : "#ef4444";
+    const fixedFillColor = isAbove ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)";
+
+    // 色を「前日終値より上→緑、下→赤」で固定
+    chart.data.datasets[0].borderColor = fixedLineColor;
+    chart.data.datasets[0].backgroundColor = fixedFillColor;
+
     chart.options.plugins.annotation.annotations.line.yMin = previousClose;
     chart.options.plugins.annotation.annotations.line.yMax = previousClose;
     chart.update();
 
-    // 表示更新
     const percentChange = ((newValue - previousClose) / previousClose * 100).toFixed(2);
     const valueDisplay = converted.toLocaleString(undefined, { maximumFractionDigits: 2 });
 
     info.innerHTML = `
       <span>${currentCurrency} ${valueDisplay}</span>
-      <span class="${newValue >= previousClose ? 'up' : 'down'}">
+      <span class="${isAbove ? 'up' : 'down'}">
         ${percentChange}%
       </span>
     `;

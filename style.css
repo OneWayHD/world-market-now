@@ -37,12 +37,12 @@ h1 {
 
 #chart-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 16px;
   padding: 20px;
 }
 
-/* ✅ スマホでも2カラム表示させる */
+/* ✅ モバイルでもきれいに2カラム表示 */
 @media screen and (max-width: 768px) {
   #chart-container {
     grid-template-columns: repeat(2, 1fr);
@@ -53,7 +53,7 @@ h1 {
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
-  padding: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,7 +65,7 @@ h1 {
 }
 
 .chart-title {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: bold;
   margin-bottom: 8px;
   text-align: center;
@@ -84,7 +84,7 @@ h1 {
   justify-content: center;
   gap: 6px;
   margin-top: 8px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .up {
