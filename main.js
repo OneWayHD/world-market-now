@@ -37,11 +37,6 @@ function createChartCard(indexData) {
   const ctx = canvas.getContext("2d");
   const initialValue = indexData.baseValue;
   const initialData = Array.from({ length: 20 }, () => generateRandomChange(initialValue));
-  const lastValue = initialData.at(-1);
-
-  const isAbove = lastValue >= indexData.baseValue;
-  const lineColor = isAbove ? "#22c55e" : "#ef4444";
-  const fillColor = isAbove ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)";
 
   const chart = new Chart(ctx, {
     type: "line",
@@ -52,8 +47,19 @@ function createChartCard(indexData) {
         borderWidth: 2,
         fill: true,
         pointRadius: 0,
-        borderColor: lineColor,
-        backgroundColor: fillColor
+        borderColor: "#3b82f6", // ✅ 青色で固定
+        segment: {
+          backgroundColor: ctx => {
+            const y0 = ctx.p0.parsed.y;
+            const y1 = ctx.p1.parsed.y;
+            const base = indexData.baseValue;
+            const above = y0 >= base && y1 >= base;
+            const below = y0 < base && y1 < base;
+            if (above) return 'rgba(34,197,94,0.1)';  // ✅ 薄緑（上）
+            if (below) return 'rgba(239,68,68,0.1)';  // ✅ 薄赤（下）
+            return 'rgba(0,0,0,0)';
+          }
+        }
       }]
     },
     options: {
@@ -105,14 +111,8 @@ function updateCharts() {
       chart.data.datasets[0].data.shift();
     }
 
-    const isAbove = newValue >= previousClose;
-    const fixedLineColor = isAbove ? "#22c55e" : "#ef4444";
-    const fixedFillColor = isAbove ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)";
-
-    // 色を「前日終値より上→緑、下→赤」で固定
-    chart.data.datasets[0].borderColor = fixedLineColor;
-    chart.data.datasets[0].backgroundColor = fixedFillColor;
-
+    // ✅ 線は常に青、塗り分けはsegmentで処理
+    chart.data.datasets[0].borderColor = "#3b82f6";
     chart.options.plugins.annotation.annotations.line.yMin = previousClose;
     chart.options.plugins.annotation.annotations.line.yMax = previousClose;
     chart.update();
@@ -122,7 +122,7 @@ function updateCharts() {
 
     info.innerHTML = `
       <span>${currentCurrency} ${valueDisplay}</span>
-      <span class="${isAbove ? 'up' : 'down'}">
+      <span class="${newValue >= previousClose ? 'up' : 'down'}">
         ${percentChange}%
       </span>
     `;
