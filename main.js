@@ -15,6 +15,54 @@ function generateRandomChange(base) {
   return base + change;
 }
 
+// Chart.js カスタムプラグイン（前日終値ラインとティック線の間を塗る）
+Chart.register({
+  id: 'customFillPlugin',
+  beforeDatasetsDraw(chart, args, options) {
+    const {
+      ctx,
+      chartArea: { top, bottom, left, right },
+      scales: { x, y }
+    } = chart;
+
+    chart.data.datasets.forEach((dataset, index) => {
+      const meta = chart.getDatasetMeta(index);
+      if (!meta || !meta.data || meta.data.length < 2) return;
+
+      const base = dataset.baseValue;
+      ctx.save();
+
+      for (let i = 0; i < meta.data.length - 1; i++) {
+        const p0 = meta.data[i];
+        const p1 = meta.data[i + 1];
+        const x0 = p0.x;
+        const x1 = p1.x;
+        const y0 = p0.y;
+        const y1 = p1.y;
+        const yBase = y.getPixelForValue(base);
+
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.lineTo(x1, yBase);
+        ctx.lineTo(x0, yBase);
+        ctx.closePath();
+
+        const allAbove = y0 <= yBase && y1 <= yBase;
+        const allBelow = y0 > yBase && y1 > yBase;
+        ctx.fillStyle = allAbove
+          ? 'rgba(34,197,94,0.1)'  // 薄緑
+          : allBelow
+          ? 'rgba(239,68,68,0.1)'  // 薄赤
+          : 'rgba(0,0,0,0)';
+        ctx.fill();
+      }
+
+      ctx.restore();
+    });
+  }
+});
+
 // チャートを作成
 function createChartCard(indexData) {
   const card = document.createElement("div");
@@ -45,21 +93,10 @@ function createChartCard(indexData) {
       datasets: [{
         data: initialData,
         borderWidth: 2,
-        fill: true,
+        fill: false,
         pointRadius: 0,
-        borderColor: "#3b82f6", // ✅ 青色で固定
-        segment: {
-          backgroundColor: ctx => {
-            const y0 = ctx.p0.parsed.y;
-            const y1 = ctx.p1.parsed.y;
-            const base = indexData.baseValue;
-            const above = y0 >= base && y1 >= base;
-            const below = y0 < base && y1 < base;
-            if (above) return 'rgba(34,197,94,0.1)';  // ✅ 薄緑（上）
-            if (below) return 'rgba(239,68,68,0.1)';  // ✅ 薄赤（下）
-            return 'rgba(0,0,0,0)';
-          }
-        }
+        borderColor: "#3b82f6", // 青線固定
+        baseValue: indexData.baseValue // 塗り分け用
       }]
     },
     options: {
@@ -76,9 +113,7 @@ function createChartCard(indexData) {
               borderColor: '#9ca3af',
               borderWidth: 1,
               borderDash: [6, 6],
-              label: {
-                enabled: false
-              }
+              label: { enabled: false }
             }
           }
         }
@@ -111,10 +146,6 @@ function updateCharts() {
       chart.data.datasets[0].data.shift();
     }
 
-    // ✅ 線は常に青、塗り分けはsegmentで処理
-    chart.data.datasets[0].borderColor = "#3b82f6";
-    chart.options.plugins.annotation.annotations.line.yMin = previousClose;
-    chart.options.plugins.annotation.annotations.line.yMax = previousClose;
     chart.update();
 
     const percentChange = ((newValue - previousClose) / previousClose * 100).toFixed(2);
