@@ -14,7 +14,6 @@ function generateRandomChange(base) {
   return base + change;
 }
 
-// Canvas描画で塗り補完
 Chart.register({
   id: 'customFillPlugin',
   beforeDatasetsDraw(chart) {
@@ -120,7 +119,10 @@ function createChartCard(indexData) {
         x: { display: false },
         y: {
           display: true,
-          ticks: { font: { size: 10 } }
+          position: 'right', // ✅ 縦軸を右側に表示
+          ticks: {
+            font: { size: 10 }
+          }
         }
       }
     }
