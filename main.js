@@ -18,10 +18,10 @@ function generateRandomChange(base) {
 // Chart.js カスタムプラグイン（前日終値ラインとティック線の間を塗る）
 Chart.register({
   id: 'customFillPlugin',
-  beforeDatasetsDraw(chart, args, options) {
+  beforeDatasetsDraw(chart) {
     const {
       ctx,
-      chartArea: { top, bottom, left, right },
+      chartArea: { top, bottom },
       scales: { x, y }
     } = chart;
 
@@ -30,6 +30,7 @@ Chart.register({
       if (!meta || !meta.data || meta.data.length < 2) return;
 
       const base = dataset.baseValue;
+      const yBase = y.getPixelForValue(base);
       ctx.save();
 
       for (let i = 0; i < meta.data.length - 1; i++) {
@@ -39,7 +40,6 @@ Chart.register({
         const x1 = p1.x;
         const y0 = p0.y;
         const y1 = p1.y;
-        const yBase = y.getPixelForValue(base);
 
         ctx.beginPath();
         ctx.moveTo(x0, y0);
@@ -48,12 +48,12 @@ Chart.register({
         ctx.lineTo(x0, yBase);
         ctx.closePath();
 
-        const allAbove = y0 <= yBase && y1 <= yBase;
-        const allBelow = y0 > yBase && y1 > yBase;
-        ctx.fillStyle = allAbove
-          ? 'rgba(34,197,94,0.1)'  // 薄緑
-          : allBelow
-          ? 'rgba(239,68,68,0.1)'  // 薄赤
+        const above = y0 <= yBase && y1 <= yBase;
+        const below = y0 > yBase && y1 > yBase;
+        ctx.fillStyle = above
+          ? 'rgba(34,197,94,0.1)' // 薄緑
+          : below
+          ? 'rgba(239,68,68,0.1)' // 薄赤
           : 'rgba(0,0,0,0)';
         ctx.fill();
       }
@@ -96,7 +96,7 @@ function createChartCard(indexData) {
         fill: false,
         pointRadius: 0,
         borderColor: "#3b82f6", // 青線固定
-        baseValue: indexData.baseValue // 塗り分け用
+        baseValue: indexData.baseValue // カスタム塗り用
       }]
     },
     options: {
@@ -122,9 +122,7 @@ function createChartCard(indexData) {
         x: { display: false },
         y: {
           display: true,
-          ticks: {
-            font: { size: 10 }
-          }
+          ticks: { font: { size: 10 } }
         }
       }
     }
