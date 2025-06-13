@@ -9,13 +9,12 @@ const exchangeRates = {
   EUR: 0.92
 };
 
-// 値をランダムに生成（±0.5%変動）
 function generateRandomChange(base) {
   const change = base * (Math.random() * 0.01 - 0.005);
   return base + change;
 }
 
-// Chart.js カスタムプラグイン（前日終値ラインとティック線の間を塗る）
+// Canvas描画で塗り補完
 Chart.register({
   id: 'customFillPlugin',
   beforeDatasetsDraw(chart) {
@@ -51,9 +50,9 @@ Chart.register({
         const above = y0 <= yBase && y1 <= yBase;
         const below = y0 > yBase && y1 > yBase;
         ctx.fillStyle = above
-          ? 'rgba(34,197,94,0.1)' // 薄緑
+          ? 'rgba(34,197,94,0.1)'
           : below
-          ? 'rgba(239,68,68,0.1)' // 薄赤
+          ? 'rgba(239,68,68,0.1)'
           : 'rgba(0,0,0,0)';
         ctx.fill();
       }
@@ -63,7 +62,6 @@ Chart.register({
   }
 });
 
-// チャートを作成
 function createChartCard(indexData) {
   const card = document.createElement("div");
   card.className = "chart-card";
@@ -95,8 +93,8 @@ function createChartCard(indexData) {
         borderWidth: 2,
         fill: false,
         pointRadius: 0,
-        borderColor: "#3b82f6", // 青線固定
-        baseValue: indexData.baseValue // カスタム塗り用
+        borderColor: "#3b82f6",
+        baseValue: indexData.baseValue
       }]
     },
     options: {
@@ -131,7 +129,6 @@ function createChartCard(indexData) {
   charts.push({ chart, info, indexData });
 }
 
-// チャートを毎秒更新
 function updateCharts() {
   charts.forEach(({ chart, info, indexData }) => {
     const lastValue = chart.data.datasets[0].data.at(-1);
@@ -158,7 +155,6 @@ function updateCharts() {
   });
 }
 
-// 通貨切替イベント
 currencyButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     currencyButtons.forEach(b => b.classList.remove("active"));
@@ -168,6 +164,5 @@ currencyButtons.forEach(btn => {
   });
 });
 
-// 初期描画
 indices.forEach(createChartCard);
 setInterval(updateCharts, 1000);
