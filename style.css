@@ -43,9 +43,9 @@ h1 {
 
 #chart-container {
   display: grid;
-  grid-template-columns: 50% 50%;  /* ✅ frではなく明示的に50% */
-  gap: 0;                          /* ✅ gap排除 */
-  padding: 0;                      /* ✅ padding排除 */
+  grid-template-columns: 50% 50%;
+  gap: 0;
+  padding: 0;
   width: 100%;
   box-sizing: border-box;
 }
@@ -54,8 +54,8 @@ h1 {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  padding: 8px 4px;               /* ✅ 横方向padding圧縮 */
-  background-color: #ffffff;
+  padding: 8px 4px;
+  background-color: #e5e7eb; /* ✅ カード背景をやや濃いグレーに変更 */
   border-radius: 12px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
   display: flex;
