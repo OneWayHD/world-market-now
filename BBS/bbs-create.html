@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Thread | World Market Now</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #0f172a;
+      color: #fff;
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-note {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+
+    form button {
+      background-color: #0ea5e9;
+      color: white;
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Create New Thread</h1>
+  </header>
+
+  <main>
+    <form>
+      <input type="text" name="title" placeholder="Thread Title" />
+      <input type="text" name="name" placeholder="Your Name (optional)" />
+      <textarea name="body" rows="5" placeholder="Write your first post here..."></textarea>
+      <p class="form-note">※ Please write at least <strong>5 characters</strong> to post.</p>
+      <button type="submit">Create Thread</button>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 World Market Now
+  </footer>
+
+  <!-- ✅ Firebase連携スクリプト -->
+  <script type="module" src="firebase-init.js"></script>
+  <script type="module" src="bbs-create.js"></script>
+</body>
+</html>

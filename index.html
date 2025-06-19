@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>World Market Now</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ✅ SEO / SNS 用 metaタグ -->
+  <meta name="description" content="World Market Now is a real-time global market dashboard for indices, forex, and crypto. Stay informed with live financial data.">
+  <meta name="keywords" content="stock index, forex, crypto, market data, real-time, financial, charts, wmktnow">
+  <meta name="author" content="One Way HD Co., Ltd.">
+
+  <!-- ✅ Google Search Console Verification -->
+  <meta name="google-site-verification" content="HHGDx68bEfBiDOGwsEU5KjM90uqtig6IZUqUrl58Ifg" />
+
+  <!-- ✅ AdSense 所有権確認用コード -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182"
+     crossorigin="anonymous"></script>
+
+  <!-- ✅ OGP（SNSシェア用） -->
+  <meta property="og:title" content="World Market Now">
+  <meta property="og:description" content="Real-time global market data for stocks, currencies, and cryptocurrencies.">
+  <meta property="og:image" content="https://wmktnow.com/ogp.jpg">
+  <meta property="og:url" content="https://wmktnow.com">
+  <meta property="og:type" content="website">
+
+  <!-- ✅ Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="World Market Now">
+  <meta name="twitter:description" content="Stay updated with real-time stock indices, forex, and crypto data.">
+  <meta name="twitter:image" content="https://wmktnow.com/ogp.jpg">
+
+  <!-- ✅ Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJ6LBW5FVP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KJ6LBW5FVP');
+  </script>
+
+  <!-- ✅ PWA対応用 -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="theme-color" content="#0f172a">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
+
+  <style>
+    .language-select {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .language-select select {
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+      padding: 20px 0 10px;
+    }
+
+    .disabled-tab {
+      background-color: #cbd5e1;
+      color: #6b7280;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 640px) {
+      .language-select {
+        top: 4px;
+        right: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>World Market Now</h1>
+  </header>
+
+  <div class="language-select">
+    <select id="language">
+      <option value="en" selected>English</option>
+      <option value="ja" disabled>日本語</option>
+      <option value="de" disabled>Deutsch</option>
+      <option value="es" disabled>Español</option>
+      <option value="zh" disabled>中文</option>
+      <option value="hi" disabled>हिन्दी</option>
+    </select>
+
+    <select id="currency">
+      <option value="USD" selected>USD</option>
+      <option value="JPY">JPY</option>
+      <option value="EUR">EUR</option>
+    </select>
+  </div>
+
+  <div class="category-tabs">
+    <button class="category-btn active" data-category="indices">Indices</button>
+    <button class="category-btn" data-category="forex">Forex</button>
+    <button class="category-btn" data-category="crypto">Crypto</button>
+    <button class="category-btn disabled-tab" disabled>News</button>
+    <button class="category-btn disabled-tab" disabled>Board</button>
+  </div>
+
+  <main id="chart-container">
+    <!-- チャートがここに動的に挿入される -->
+  </main>
+
+  <!-- ✅ 拡大プレビューモーダル（チャート名付き） -->
+  <div id="chart-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:9999;">
+    <div style="background:#fff; padding:20px; border-radius:12px; max-width:90vw; max-height:90vh; position:relative;">
+      <button id="modal-close" style="position:absolute; top:10px; right:10px; background:#e11d48; color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">×</button>
+      <div id="modal-title" style="font-size:18px; font-weight:bold; text-align:center; margin-bottom:12px;"></div>
+      <canvas id="modal-canvas" width="600" height="400"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links" style="margin-bottom: 12px;">
+      <a href="about.html" style="margin-right: 16px;">About</a>
+      <a href="privacy.html" style="margin-right: 16px;">Privacy Policy</a>
+      <a href="articles.html" style="margin-right: 16px;">Articles</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p>&copy; 2025 World Market Now</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('✅ Service Worker registered'))
+        .catch(err => console.error('❌ Service Worker failed', err));
+    }
+  </script>
+</body>
+</html>
