@@ -126,8 +126,10 @@
     <p>&copy; 2025 World Market Now</p>
   </footer>  
 
-  <script src="data.js"></script>
-  <script src="main.js"></script>
+  <!-- ✅ defer を明示 -->
+  <script src="data.js" defer></script>
+  <script src="main.js" defer></script>
+
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
