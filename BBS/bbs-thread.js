@@ -219,10 +219,10 @@ if (replyForm) {
     }
 
     try {
+      // ✅ imageUrl: null を完全に削除
       await addDoc(collection(db, "threads", threadId, "posts"), {
         name,
         content,
-        imageUrl: null,
         createdAt: serverTimestamp(),
         deleted: false,
         reported: false,
