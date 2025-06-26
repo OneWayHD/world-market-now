@@ -34,7 +34,8 @@
     }
 
     form input,
-    form textarea {
+    form textarea,
+    form select {
       width: 100%;
       padding: 8px;
       margin-bottom: 12px;
@@ -73,18 +74,26 @@
   </header>
 
   <main>
-    <form>
-      <input type="text" name="title" placeholder="Thread Title" />
+    <form id="create-thread-form">
+      <select name="category" required>
+        <option value="" disabled selected>Choose a Category</option>
+        <option value="Indices">Indices</option>
+        <option value="Forex">Forex</option>
+        <option value="Crypto">Crypto</option>
+      </select>
+      <input type="text" name="title" placeholder="Thread Title" required />
       <input type="text" name="name" placeholder="Your Name (optional)" />
-      <textarea name="body" rows="5" placeholder="Write your first post here..."></textarea>
+      <textarea name="body" rows="5" placeholder="Write your first post here..." required></textarea>
       <p class="form-note">※ Please write at least <strong>5 characters</strong> to post.</p>
       <button type="submit">Create Thread</button>
     </form>
   </main>
 
   <footer>
-    &copy; 2025 World Market Now
-  </footer>
+    <a href="../index.html" style="color: #666; text-decoration: none;">
+      &copy; 2025 World Market Now
+    </a>
+  </footer>  
 
   <!-- ✅ Firebase連携スクリプト -->
   <script type="module" src="firebase-init.js"></script>

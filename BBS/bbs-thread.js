@@ -9,28 +9,39 @@ import {
   addDoc,
   updateDoc,
   serverTimestamp,
-  updateDoc as updatePostDoc
+  updateDoc as updatePostDoc,
+  increment
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-// ✅ Firebase接続
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
+
 const db = window.db;
-
-// ✅ 管理者表示モード（trueでDeleteボタンは出る）
+const storage = window.storage;
 const isAdmin = true;
-
-// ✅ パスワード（JS内に埋め込まれる簡易方式）
 const ADMIN_PASSWORD = "w0rldM4rketNow";
 
-// ✅ URLからスレッドIDを取得
 const params = new URLSearchParams(location.search);
 const threadId = params.get("id");
 
-// ✅ 要素取得
 const titleEl = document.getElementById("thread-title");
+const categoryLabel = document.getElementById("thread-category-label");
 const postList = document.getElementById("post-list");
 const replyForm = document.getElementById("reply-form");
+const replyTextarea = replyForm?.content;
+const imageInput = document.getElementById("imageInput");
 
-// ✅ 投稿一覧を読み込む関数
+// ✅ >>番号 をリンクに変換
+function linkifyAnchors(content) {
+  return content.replace(/&gt;&gt;(\d+)/g, (match, num) => {
+    return `<a href="#post-${num}" class="anchor-link">&gt;&gt;${num}</a>`;
+  });
+}
+
 async function loadThread() {
   if (!threadId) {
     titleEl.innerText = "❌ Thread ID is missing.";
@@ -46,7 +57,18 @@ async function loadThread() {
       return;
     }
 
-    titleEl.innerText = threadSnap.data().title || "(no title)";
+    const threadData = threadSnap.data();
+    const category = threadData.category || "Unknown";
+
+    const classMap = {
+      Indices: "category-indices",
+      Forex: "category-forex",
+      Crypto: "category-crypto"
+    };
+    const cssClass = classMap[category] || "";
+    categoryLabel.innerHTML = `<span class="category-label ${cssClass}">${category}</span>`;
+
+    titleEl.innerText = threadData.title || "(no title)";
 
     const postsRef = collection(db, "threads", threadId, "posts");
     const q = query(postsRef, orderBy("createdAt", "asc"));
@@ -58,50 +80,70 @@ async function loadThread() {
     }
 
     let html = "";
+    let index = 1;
+    const postIdMap = {};
+
     postSnap.forEach(docSnap => {
       const data = docSnap.data();
       const postId = docSnap.id;
 
       if (data.deleted === true) return;
 
+      postIdMap[postId] = index;
+
       const name = data.name || "Anonymous";
       const time = data.createdAt?.toDate().toLocaleString() ?? "Unknown";
       const isReported = data.reported === true;
-      const content = data.content || "";
+      const rawContent = data.content || "";
+      const escapedContent = rawContent
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\n/g, "<br>");
+      const linkedContent = linkifyAnchors(escapedContent);
 
       const contentHtml = isReported
-        ? `
-          <div class="post-content" style="color:#9ca3af;">
+        ? `<div class="post-content" style="color:#9ca3af;">
             ⚠ This post has been reported.<br>
-            <span style="font-style: italic;">${content}</span>
+            <span style="font-style: italic;">${linkedContent}</span>
           </div>`
-        : `<div class="post-content">${content}</div>`;
+        : `<div class="post-content">${linkedContent}</div>`;
 
+      const imageHtml = data.imageUrl
+        ? `<img src="${data.imageUrl}" class="post-image" alt="Attached Image" />`
+        : "";
+
+      const likeCount = data.likes || 0;
+      const likeBtn = `<button class="like-button" data-id="${postId}">👍 ${likeCount}</button>`;
+
+      const replyBtn = `<button class="reply-button" data-number="${index}">Reply</button>`;
       const reportBtn = `<button class="report-button" data-id="${postId}">Report</button>`;
       const deleteBtn = isAdmin
         ? `<button class="delete-button" data-id="${postId}">Delete</button>`
         : "";
 
       html += `
-        <li class="post" data-id="${postId}">
-          <div class="post-author">${name}</div>
+        <li class="post" id="post-${index}" data-id="${postId}">
+          <div class="post-author">#${index} ${name}</div>
           ${contentHtml}
+          ${imageHtml}
           <div class="post-time">${time}</div>
+          <div class="reaction-bar">${likeBtn}</div>
+          ${replyBtn}
           ${deleteBtn}
           ${reportBtn}
         </li>
       `;
+      index++;
     });
 
     postList.innerHTML = html;
 
     // ✅ 通報処理
-    const reportButtons = document.querySelectorAll(".report-button");
-    reportButtons.forEach(button => {
+    document.querySelectorAll(".report-button").forEach(button => {
       button.addEventListener("click", async () => {
         const postId = button.dataset.id;
         const postRef = doc(db, "threads", threadId, "posts", postId);
-
         try {
           await updatePostDoc(postRef, { reported: true });
           alert("Reported. Thank you for your feedback.");
@@ -113,13 +155,11 @@ async function loadThread() {
       });
     });
 
-    // ✅ 削除処理（adminのみ）
+    // ✅ 削除処理
     if (isAdmin) {
-      const deleteButtons = document.querySelectorAll(".delete-button");
-      deleteButtons.forEach(button => {
+      document.querySelectorAll(".delete-button").forEach(button => {
         button.addEventListener("click", async () => {
           const postId = button.dataset.id;
-
           const input = prompt("Enter admin password to delete this post:");
           if (input !== ADMIN_PASSWORD) {
             alert("Incorrect password. Deletion cancelled.");
@@ -142,6 +182,33 @@ async function loadThread() {
       });
     }
 
+    // ✅ 返信ボタン → フォームへ >>番号 挿入
+    document.querySelectorAll(".reply-button").forEach(button => {
+      button.addEventListener("click", () => {
+        const number = button.dataset.number;
+        const current = replyTextarea.value;
+        if (!current.includes(`>>${number}`)) {
+          replyTextarea.value = `>>${number}\n` + current;
+        }
+        replyTextarea.focus();
+      });
+    });
+
+    // ✅ いいねボタン処理
+    document.querySelectorAll(".like-button").forEach(button => {
+      button.addEventListener("click", async () => {
+        const postId = button.dataset.id;
+        const postRef = doc(db, "threads", threadId, "posts", postId);
+        try {
+          await updatePostDoc(postRef, { likes: increment(1) });
+          location.reload(); // 将来的にはリアルタイム反映へ改善可
+        } catch (err) {
+          console.error("Like failed:", err);
+          alert("Failed to like the post. Please try again.");
+        }
+      });
+    });
+
   } catch (err) {
     console.error("Error loading thread:", err);
     titleEl.innerText = "❌ Failed to load thread.";
@@ -150,7 +217,7 @@ async function loadThread() {
 
 loadThread();
 
-// ✅ 返信投稿処理
+// ✅ 返信投稿処理（画像付き対応）
 if (replyForm) {
   replyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -163,7 +230,8 @@ if (replyForm) {
     }
 
     const name = replyForm.name.value.trim() || "Anonymous";
-    const content = replyForm.content.value.trim(); // ✅ 修正済：value.trim()
+    const content = replyForm.content.value.trim();
+    const imageFile = imageInput.files[0];
 
     if (!content) {
       alert("Please enter some content.");
@@ -175,16 +243,28 @@ if (replyForm) {
       return;
     }
 
+    let imageUrl = null;
+
     try {
+      if (imageFile) {
+        const fileRef = storageRef(storage, `post_images/${Date.now()}_${imageFile.name}`);
+        const snapshot = await uploadBytes(fileRef, imageFile);
+        imageUrl = await getDownloadURL(snapshot.ref);
+      }
+
       await addDoc(collection(db, "threads", threadId, "posts"), {
         name,
         content,
+        imageUrl: imageUrl || null,
         createdAt: serverTimestamp(),
-        deleted: false
+        deleted: false,
+        reported: false,
+        likes: 0 // ← 新規投稿時にlikesフィールドを初期化
       });
 
       await updateDoc(doc(db, "threads", threadId), {
-        latestReplyAt: serverTimestamp()
+        latestReplyAt: serverTimestamp(),
+        replyCount: increment(1)
       });
 
       localStorage.setItem("lastPostTime", now.toString());

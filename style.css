@@ -23,7 +23,6 @@ h1 {
   padding: 20px 0 10px;
 }
 
-/* ✅ 言語＋通貨選択セレクトの右上配置 */
 .language-select {
   position: absolute;
   top: 10px;
@@ -43,7 +42,6 @@ h1 {
   color: #111;
 }
 
-/* ✅ カテゴリタブ */
 .category-tabs {
   text-align: center;
   margin: 6px 0;
@@ -88,10 +86,14 @@ h1 {
   align-items: center;
   transition: 0.3s ease;
   cursor: pointer;
+  position: relative;
+  z-index: 0;
+  overflow: visible;
 }
 
-.chart-card:hover {
-  transform: translateY(-2px);
+.chart-card canvas {
+  position: relative;
+  z-index: 1;
 }
 
 .chart-title {
@@ -141,7 +143,6 @@ footer {
   box-sizing: border-box;
 }
 
-/* ✅ 無効化されたタブ（例：News） */
 .disabled-tab {
   background-color: #cbd5e1;
   color: #6b7280;
@@ -149,7 +150,6 @@ footer {
   opacity: 0.7;
 }
 
-/* ✅ モーダル表示（拡大チャート） */
 #chart-modal {
   display: none;
   position: fixed;
@@ -184,7 +184,6 @@ footer {
   cursor: pointer;
 }
 
-/* ✅ モーダルのチャートタイトル */
 #modal-title {
   font-size: 18px;
   font-weight: bold;
@@ -192,7 +191,37 @@ footer {
   margin-bottom: 12px;
 }
 
-/* ✅ スマホ対応 */
+/* ✅ アンカーリンク（>>番号） */
+.anchor-link {
+  color: #0ea5e9;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.anchor-link:hover {
+  color: #0369a1;
+}
+
+/* ✅ カテゴリラベル */
+.category-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  color: white;
+  margin-bottom: 6px;
+}
+
+.category-indices {
+  background-color: #0ea5e9;
+}
+.category-forex {
+  background-color: #6366f1;
+}
+.category-crypto {
+  background-color: #f59e0b;
+}
+
 @media (max-width: 640px) {
   .language-select {
     top: 4px;
@@ -203,5 +232,9 @@ footer {
 
   #modal-title {
     font-size: 16px;
+  }
+
+  .chart-card canvas {
+    max-width: 100%;
   }
 }

@@ -26,6 +26,28 @@
       margin: auto;
     }
 
+    .category-label {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .category-indices {
+      background-color: #0ea5e9;
+    }
+
+    .category-forex {
+      background-color: #6366f1;
+    }
+
+    .category-crypto {
+      background-color: #f59e0b;
+    }
+
     #thread-title {
       font-size: 20px;
       font-weight: bold;
@@ -51,6 +73,7 @@
     .post-content {
       font-size: 14px;
       color: #111827;
+      white-space: pre-wrap;
     }
 
     .post-time {
@@ -59,8 +82,35 @@
       margin-top: 6px;
     }
 
+    .post-image {
+      margin-top: 10px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .reaction-bar {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .like-button {
+      background: none;
+      border: none;
+      color: #2563eb;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 0;
+      margin-right: 10px;
+    }
+
+    .like-button:hover {
+      color: #1d4ed8;
+    }
+
     .report-button,
-    .delete-button {
+    .delete-button,
+    .reply-button {
       position: absolute;
       top: 8px;
       font-size: 12px;
@@ -86,6 +136,15 @@
 
     .delete-button:hover {
       color: #4f46e5;
+    }
+
+    .reply-button {
+      right: 120px;
+      color: #10b981;
+    }
+
+    .reply-button:hover {
+      color: #059669;
     }
 
     #post-list {
@@ -138,30 +197,42 @@
 <body>
   <header>
     <h1>Thread View - World Market Now</h1>
+    <div style="text-align: center; margin-top: 8px;">
+      <a href="bbs.html" style="color: #0ea5e9; text-decoration: underline; font-size: 14px;">← Back to Thread List</a>
+    </div>
   </header>
 
   <main>
-    <!-- Thread Title -->
+    <!-- ✅ カテゴリラベル表示 -->
+    <div id="thread-category-label"></div>
+
+    <!-- スレッドタイトル -->
     <div id="thread-title"></div>
 
-    <!-- Post List -->
+    <!-- 投稿リスト -->
     <ul id="post-list"></ul>
 
-    <!-- Reply Form -->
+    <!-- 返信フォーム -->
     <form id="reply-form">
       <input type="text" name="name" placeholder="Your Name (optional)" />
       <textarea name="content" rows="4" placeholder="Write your reply here..."></textarea>
+
+      <!-- 🔽 画像アップロードフィールド追加 -->
+      <input type="file" id="imageInput" accept="image/*" />
+
       <p class="form-note">※ Please write at least <strong>5 characters</strong> to post.</p>
       <button type="submit">Post Reply</button>
     </form>
   </main>
 
   <footer>
-    &copy; 2025 World Market Now
+    <a href="../index.html" style="color: #666; text-decoration: none;">
+      &copy; 2025 World Market Now
+    </a>
   </footer>
 
-  <!-- Firebase + JS -->
+  <!-- Firebase 初期化＋JS -->
   <script type="module" src="firebase-init.js"></script>
-  <script type="module" src="bbs-thread.js?v=9999"></script>
+  <script type="module" src="bbs-thread.js?v=10007"></script>
 </body>
 </html>

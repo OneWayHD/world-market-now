@@ -27,45 +27,26 @@ function generateRandomChange(base) {
 Chart.register({
   id: 'customFillPlugin',
   beforeDatasetsDraw(chart) {
-    const {
-      ctx,
-      chartArea: { top, bottom },
-      scales: { x, y }
-    } = chart;
-
-    chart.data.datasets.forEach((dataset, index) => {
-      const meta = chart.getDatasetMeta(index);
-      if (!meta || !meta.data || meta.data.length < 2) return;
-
-      const base = dataset.baseValue;
-      const yBase = y.getPixelForValue(base);
+    const { ctx, scales: { y } } = chart;
+    chart.data.datasets.forEach((dataset) => {
+      const meta = chart.getDatasetMeta(0);
+      if (!meta || meta.data.length < 2) return;
+      const yBase = y.getPixelForValue(dataset.baseValue);
       ctx.save();
-
       for (let i = 0; i < meta.data.length - 1; i++) {
         const p0 = meta.data[i];
         const p1 = meta.data[i + 1];
-        const x0 = p0.x;
-        const x1 = p1.x;
-        const y0 = p0.y;
-        const y1 = p1.y;
-
         ctx.beginPath();
-        ctx.moveTo(x0, y0);
-        ctx.lineTo(x1, y1);
-        ctx.lineTo(x1, yBase);
-        ctx.lineTo(x0, yBase);
+        ctx.moveTo(p0.x, p0.y);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.lineTo(p1.x, yBase);
+        ctx.lineTo(p0.x, yBase);
         ctx.closePath();
-
-        const above = y0 <= yBase && y1 <= yBase;
-        const below = y0 > yBase && y1 > yBase;
-        ctx.fillStyle = above
-          ? 'rgba(34,197,94,0.1)'
-          : below
-          ? 'rgba(239,68,68,0.1)'
-          : 'rgba(0,0,0,0)';
+        const above = p0.y <= yBase && p1.y <= yBase;
+        const below = p0.y > yBase && p1.y > yBase;
+        ctx.fillStyle = above ? 'rgba(34,197,94,0.1)' : below ? 'rgba(239,68,68,0.1)' : 'rgba(0,0,0,0)';
         ctx.fill();
       }
-
       ctx.restore();
     });
   }
@@ -86,6 +67,10 @@ function createChartCard(indexData) {
   const info = document.createElement("div");
   info.className = "chart-info";
   card.appendChild(info);
+
+  card.addEventListener("click", () => {
+    showChartInModal(indexData);
+  });
 
   chartContainer.appendChild(card);
 
@@ -136,10 +121,6 @@ function createChartCard(indexData) {
     }
   });
 
-  card.addEventListener("click", () => {
-    showChartInModal(indexData);
-  });
-
   charts.push({ chart, info, indexData });
 }
 
@@ -151,31 +132,18 @@ function updateCharts() {
     const converted = newValue * exchangeRates[currentCurrency];
 
     chart.data.datasets[0].data.push(newValue);
-    if (chart.data.datasets[0].data.length > 20) {
-      chart.data.datasets[0].data.shift();
-    }
-
+    if (chart.data.datasets[0].data.length > 20) chart.data.datasets[0].data.shift();
     chart.update();
 
     const percentChange = ((newValue - previousClose) / previousClose * 100).toFixed(2);
     const valueDisplay = converted.toLocaleString(undefined, { maximumFractionDigits: 2 });
-
     info.innerHTML = `
       <span>${currentCurrency} ${valueDisplay}</span>
-      <span class="${newValue >= previousClose ? 'up' : 'down'}">
-        ${percentChange}%
-      </span>
+      <span class="${newValue >= previousClose ? 'up' : 'down'}">${percentChange}%</span>
     `;
   });
 }
 
-// ✅ 通貨切替
-currencySelect.addEventListener("change", () => {
-  currentCurrency = currencySelect.value;
-  updateCharts();
-});
-
-// ✅ カテゴリ切替
 categoryButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     if (btn.disabled) return;
@@ -186,27 +154,26 @@ categoryButtons.forEach(btn => {
   });
 });
 
+currencySelect.addEventListener("change", () => {
+  currentCurrency = currencySelect.value;
+  updateCharts();
+});
+
 function loadChartsByCategory() {
   chartContainer.innerHTML = "";
   charts = [];
 
-  const dataMap = {
-    indices,
-    forex,
-    crypto
-  };
-
+  const dataMap = { indices, forex, crypto };
   const dataList = dataMap[currentCategory] || [];
+
   dataList.forEach(createChartCard);
 }
 
-// ✅ モーダルチャート描画（国旗付きタイトル）
 function showChartInModal(indexData) {
   if (modalChart) modalChart.destroy();
   if (modalChartUpdater) clearInterval(modalChartUpdater);
 
   modal.style.display = "flex";
-
   modalTitle.innerHTML = `<img class="chart-flag" src="${indexData.flag}" style="width:20px; height:14px; margin-right:6px;"> ${indexData.name}`;
 
   const ctx = modalCanvas.getContext("2d");
@@ -266,7 +233,6 @@ function showChartInModal(indexData) {
   }, 1000);
 }
 
-// ✅ モーダル閉じる
 function closeModal() {
   modal.style.display = "none";
   if (modalChart) modalChart.destroy();
@@ -278,6 +244,5 @@ modal.addEventListener("click", e => {
   if (e.target === modal) closeModal();
 });
 
-// ✅ 初期表示
 loadChartsByCategory();
 setInterval(updateCharts, 1000);
