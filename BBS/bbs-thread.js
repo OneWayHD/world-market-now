@@ -9,7 +9,6 @@ import {
   addDoc,
   updateDoc,
   serverTimestamp,
-  updateDoc as updatePostDoc,
   increment
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
@@ -26,7 +25,6 @@ const postList = document.getElementById("post-list");
 const replyForm = document.getElementById("reply-form");
 const replyTextarea = replyForm?.content;
 
-// ✅ HTML escape（XSS対策）
 function escapeHTML(str) {
   return str
     .replace(/&/g, "&amp;")
@@ -36,7 +34,6 @@ function escapeHTML(str) {
     .replace(/'/g, "&#39;");
 }
 
-// ✅ >>番号リンク化
 function linkifyAnchors(content) {
   return content.replace(/&gt;&gt;(\d+)/g, (match, num) => {
     return `<a href="#post-${num}" class="anchor-link">&gt;&gt;${num}</a>`;
@@ -52,6 +49,7 @@ async function loadThread() {
   try {
     const threadRef = doc(db, "threads", threadId);
     const threadSnap = await getDoc(threadRef);
+
     if (!threadSnap.exists()) {
       titleEl.innerText = "❌ Thread not found.";
       return;
@@ -59,6 +57,7 @@ async function loadThread() {
 
     const threadData = threadSnap.data();
     const category = threadData.category || "Unknown";
+
     const classMap = {
       Indices: "category-indices",
       Forex: "category-forex",
@@ -83,6 +82,7 @@ async function loadThread() {
     postSnap.forEach(docSnap => {
       const data = docSnap.data();
       const postId = docSnap.id;
+
       if (data.deleted === true) return;
 
       const name = escapeHTML(data.name || "Anonymous");
@@ -91,6 +91,7 @@ async function loadThread() {
       const rawContent = data.content || "";
       const escapedContent = escapeHTML(rawContent).replace(/\n/g, "<br>");
       const linkedContent = linkifyAnchors(escapedContent);
+
       const contentHtml = isReported
         ? `<div class="post-content" style="color:#9ca3af;">
             ⚠ This post has been reported.<br>
@@ -127,7 +128,7 @@ async function loadThread() {
         const postId = button.dataset.id;
         const postRef = doc(db, "threads", threadId, "posts", postId);
         try {
-          await updatePostDoc(postRef, { reported: true });
+          await updateDoc(postRef, { reported: true });
           alert("Reported. Thank you for your feedback.");
           location.reload();
         } catch (err) {
@@ -146,11 +147,13 @@ async function loadThread() {
             alert("Incorrect password. Deletion cancelled.");
             return;
           }
-          if (!confirm("Are you sure you want to delete this post?")) return;
+
+          const confirmDelete = confirm("Are you sure you want to delete this post?");
+          if (!confirmDelete) return;
 
           const postRef = doc(db, "threads", threadId, "posts", postId);
           try {
-            await updatePostDoc(postRef, { deleted: true });
+            await updateDoc(postRef, { deleted: true });
             alert("Post deleted.");
             location.reload();
           } catch (err) {
@@ -177,7 +180,9 @@ async function loadThread() {
         const postId = button.dataset.id;
         const postRef = doc(db, "threads", threadId, "posts", postId);
         try {
-          await updatePostDoc(postRef, { likes: increment(1) });
+          await updateDoc(postRef, {
+            likes: increment(1)
+          });
           location.reload();
         } catch (err) {
           console.error("Like failed:", err);
@@ -194,7 +199,6 @@ async function loadThread() {
 
 loadThread();
 
-// ✅ 投稿フォーム処理（updateエラーのみ無視）
 if (replyForm) {
   replyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -224,22 +228,23 @@ if (replyForm) {
         reported: false,
         likes: 0
       });
-
-      try {
-        await updateDoc(doc(db, "threads", threadId), {
-          latestReplyAt: serverTimestamp(),
-          replyCount: increment(1)
-        });
-      } catch (e2) {
-        console.warn("Thread update failed (not critical):", e2);
-      }
-
-      localStorage.setItem("lastPostTime", now.toString());
-      location.reload();
-
     } catch (err) {
-      console.error("Error posting reply:", err);
+      console.error("Post failed:", err);
       alert("Failed to post reply. Please try again.");
+      return;
     }
+
+    try {
+      await updateDoc(doc(db, "threads", threadId), {
+        latestReplyAt: serverTimestamp(),
+        replyCount: increment(1)
+      });
+    } catch (err2) {
+      console.warn("⚠ 投稿は成功したが replyCount の更新に失敗しました：", err2);
+      alert("Reply posted, but thread counter failed to update.");
+    }
+
+    localStorage.setItem("lastPostTime", now.toString());
+    location.reload();
   });
 }

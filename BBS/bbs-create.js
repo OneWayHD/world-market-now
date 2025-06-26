@@ -52,12 +52,14 @@ form.addEventListener("submit", async (e) => {
       replyCount: 1
     });
 
-    // ✅ 初回投稿を登録
+    // ✅ 初回投稿を登録（Firestoreルールに合うように6項目すべて追加）
     await addDoc(collection(db, "threads", threadRef.id, "posts"), {
       name,
       content: body,
       createdAt: serverTimestamp(),
-      deleted: false
+      deleted: false,
+      reported: false,
+      likes: 0
     });
 
     // ✅ 投稿間隔記録
