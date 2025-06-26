@@ -82,13 +82,6 @@
       margin-top: 6px;
     }
 
-    .post-image {
-      margin-top: 10px;
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
-    }
-
     .reaction-bar {
       margin-top: 10px;
       font-size: 14px;
@@ -203,7 +196,7 @@
   </header>
 
   <main>
-    <!-- ✅ カテゴリラベル表示 -->
+    <!-- カテゴリラベル -->
     <div id="thread-category-label"></div>
 
     <!-- スレッドタイトル -->
@@ -217,8 +210,7 @@
       <input type="text" name="name" placeholder="Your Name (optional)" />
       <textarea name="content" rows="4" placeholder="Write your reply here..."></textarea>
 
-      <!-- 🔽 画像アップロードフィールド追加 -->
-      <input type="file" id="imageInput" accept="image/*" />
+      <!-- ✅ 画像アップフィールドは削除済み -->
 
       <p class="form-note">※ Please write at least <strong>5 characters</strong> to post.</p>
       <button type="submit">Post Reply</button>
@@ -231,7 +223,7 @@
     </a>
   </footer>
 
-  <!-- Firebase 初期化＋JS -->
+  <!-- Firebaseスクリプト -->
   <script type="module" src="firebase-init.js"></script>
   <script type="module" src="bbs-thread.js?v=10007"></script>
 </body>

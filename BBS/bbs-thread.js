@@ -13,15 +13,7 @@ import {
   increment
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-import {
-  getStorage,
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
-
 const db = window.db;
-const storage = window.storage;
 const isAdmin = true;
 const ADMIN_PASSWORD = "w0rldM4rketNow";
 
@@ -33,7 +25,16 @@ const categoryLabel = document.getElementById("thread-category-label");
 const postList = document.getElementById("post-list");
 const replyForm = document.getElementById("reply-form");
 const replyTextarea = replyForm?.content;
-const imageInput = document.getElementById("imageInput");
+
+// ✅ HTMLをエスケープする関数（XSS対策）
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 // ✅ >>番号 をリンクに変換
 function linkifyAnchors(content) {
@@ -68,7 +69,7 @@ async function loadThread() {
     const cssClass = classMap[category] || "";
     categoryLabel.innerHTML = `<span class="category-label ${cssClass}">${category}</span>`;
 
-    titleEl.innerText = threadData.title || "(no title)";
+    titleEl.innerText = escapeHTML(threadData.title || "(no title)");
 
     const postsRef = collection(db, "threads", threadId, "posts");
     const q = query(postsRef, orderBy("createdAt", "asc"));
@@ -81,7 +82,6 @@ async function loadThread() {
 
     let html = "";
     let index = 1;
-    const postIdMap = {};
 
     postSnap.forEach(docSnap => {
       const data = docSnap.data();
@@ -89,17 +89,12 @@ async function loadThread() {
 
       if (data.deleted === true) return;
 
-      postIdMap[postId] = index;
-
-      const name = data.name || "Anonymous";
+      const name = escapeHTML(data.name || "Anonymous");
       const time = data.createdAt?.toDate().toLocaleString() ?? "Unknown";
       const isReported = data.reported === true;
       const rawContent = data.content || "";
-      const escapedContent = rawContent
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\n/g, "<br>");
+
+      const escapedContent = escapeHTML(rawContent).replace(/\n/g, "<br>");
       const linkedContent = linkifyAnchors(escapedContent);
 
       const contentHtml = isReported
@@ -109,13 +104,8 @@ async function loadThread() {
           </div>`
         : `<div class="post-content">${linkedContent}</div>`;
 
-      const imageHtml = data.imageUrl
-        ? `<img src="${data.imageUrl}" class="post-image" alt="Attached Image" />`
-        : "";
-
       const likeCount = data.likes || 0;
       const likeBtn = `<button class="like-button" data-id="${postId}">👍 ${likeCount}</button>`;
-
       const replyBtn = `<button class="reply-button" data-number="${index}">Reply</button>`;
       const reportBtn = `<button class="report-button" data-id="${postId}">Report</button>`;
       const deleteBtn = isAdmin
@@ -126,7 +116,6 @@ async function loadThread() {
         <li class="post" id="post-${index}" data-id="${postId}">
           <div class="post-author">#${index} ${name}</div>
           ${contentHtml}
-          ${imageHtml}
           <div class="post-time">${time}</div>
           <div class="reaction-bar">${likeBtn}</div>
           ${replyBtn}
@@ -201,7 +190,7 @@ async function loadThread() {
         const postRef = doc(db, "threads", threadId, "posts", postId);
         try {
           await updatePostDoc(postRef, { likes: increment(1) });
-          location.reload(); // 将来的にはリアルタイム反映へ改善可
+          location.reload();
         } catch (err) {
           console.error("Like failed:", err);
           alert("Failed to like the post. Please try again.");
@@ -217,7 +206,7 @@ async function loadThread() {
 
 loadThread();
 
-// ✅ 返信投稿処理（画像付き対応）
+// ✅ 投稿処理（画像アップなしバージョン）
 if (replyForm) {
   replyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -231,7 +220,6 @@ if (replyForm) {
 
     const name = replyForm.name.value.trim() || "Anonymous";
     const content = replyForm.content.value.trim();
-    const imageFile = imageInput.files[0];
 
     if (!content) {
       alert("Please enter some content.");
@@ -243,23 +231,15 @@ if (replyForm) {
       return;
     }
 
-    let imageUrl = null;
-
     try {
-      if (imageFile) {
-        const fileRef = storageRef(storage, `post_images/${Date.now()}_${imageFile.name}`);
-        const snapshot = await uploadBytes(fileRef, imageFile);
-        imageUrl = await getDownloadURL(snapshot.ref);
-      }
-
       await addDoc(collection(db, "threads", threadId, "posts"), {
         name,
         content,
-        imageUrl: imageUrl || null,
+        imageUrl: null,
         createdAt: serverTimestamp(),
         deleted: false,
         reported: false,
-        likes: 0 // ← 新規投稿時にlikesフィールドを初期化
+        likes: 0
       });
 
       await updateDoc(doc(db, "threads", threadId), {
