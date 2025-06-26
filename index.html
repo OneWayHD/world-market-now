@@ -72,13 +72,6 @@
       padding: 20px 0 10px;
     }
 
-    .disabled-tab {
-      background-color: #cbd5e1;
-      color: #6b7280;
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-
     @media (max-width: 640px) {
       .language-select {
         top: 4px;
@@ -111,10 +104,10 @@
 
   <div class="category-tabs">
     <button class="category-btn active" data-category="indices">Indices</button>
-    <button class="category-btn" data-category="forex">Forex</button>
-    <button class="category-btn" data-category="crypto">Crypto</button>
-    <button class="category-btn disabled-tab" disabled>News</button>
-    <button class="category-btn disabled-tab" disabled>Board</button>
+    <button class="category-btn" onclick="location.href='?tab=forex'">Forex</button>
+    <button class="category-btn" onclick="location.href='?tab=crypto'">Crypto</button>
+    <button class="category-btn" onclick="location.href='news.html'">News</button>
+    <button class="category-btn" onclick="location.href='BBS/bbs.html'">Board</button>
   </div>
 
   <main id="chart-container">
