@@ -26,7 +26,7 @@ const postList = document.getElementById("post-list");
 const replyForm = document.getElementById("reply-form");
 const replyTextarea = replyForm?.content;
 
-// ✅ HTMLをエスケープする関数（XSS対策）
+// ✅ HTML escape（XSS対策）
 function escapeHTML(str) {
   return str
     .replace(/&/g, "&amp;")
@@ -36,7 +36,7 @@ function escapeHTML(str) {
     .replace(/'/g, "&#39;");
 }
 
-// ✅ >>番号 をリンクに変換
+// ✅ >>番号リンク化
 function linkifyAnchors(content) {
   return content.replace(/&gt;&gt;(\d+)/g, (match, num) => {
     return `<a href="#post-${num}" class="anchor-link">&gt;&gt;${num}</a>`;
@@ -52,7 +52,6 @@ async function loadThread() {
   try {
     const threadRef = doc(db, "threads", threadId);
     const threadSnap = await getDoc(threadRef);
-
     if (!threadSnap.exists()) {
       titleEl.innerText = "❌ Thread not found.";
       return;
@@ -60,7 +59,6 @@ async function loadThread() {
 
     const threadData = threadSnap.data();
     const category = threadData.category || "Unknown";
-
     const classMap = {
       Indices: "category-indices",
       Forex: "category-forex",
@@ -68,7 +66,6 @@ async function loadThread() {
     };
     const cssClass = classMap[category] || "";
     categoryLabel.innerHTML = `<span class="category-label ${cssClass}">${category}</span>`;
-
     titleEl.innerText = escapeHTML(threadData.title || "(no title)");
 
     const postsRef = collection(db, "threads", threadId, "posts");
@@ -86,17 +83,14 @@ async function loadThread() {
     postSnap.forEach(docSnap => {
       const data = docSnap.data();
       const postId = docSnap.id;
-
       if (data.deleted === true) return;
 
       const name = escapeHTML(data.name || "Anonymous");
       const time = data.createdAt?.toDate().toLocaleString() ?? "Unknown";
       const isReported = data.reported === true;
       const rawContent = data.content || "";
-
       const escapedContent = escapeHTML(rawContent).replace(/\n/g, "<br>");
       const linkedContent = linkifyAnchors(escapedContent);
-
       const contentHtml = isReported
         ? `<div class="post-content" style="color:#9ca3af;">
             ⚠ This post has been reported.<br>
@@ -128,7 +122,6 @@ async function loadThread() {
 
     postList.innerHTML = html;
 
-    // ✅ 通報処理
     document.querySelectorAll(".report-button").forEach(button => {
       button.addEventListener("click", async () => {
         const postId = button.dataset.id;
@@ -144,7 +137,6 @@ async function loadThread() {
       });
     });
 
-    // ✅ 削除処理
     if (isAdmin) {
       document.querySelectorAll(".delete-button").forEach(button => {
         button.addEventListener("click", async () => {
@@ -154,9 +146,7 @@ async function loadThread() {
             alert("Incorrect password. Deletion cancelled.");
             return;
           }
-
-          const confirmDelete = confirm("Are you sure you want to delete this post?");
-          if (!confirmDelete) return;
+          if (!confirm("Are you sure you want to delete this post?")) return;
 
           const postRef = doc(db, "threads", threadId, "posts", postId);
           try {
@@ -171,7 +161,6 @@ async function loadThread() {
       });
     }
 
-    // ✅ 返信ボタン → フォームへ >>番号 挿入
     document.querySelectorAll(".reply-button").forEach(button => {
       button.addEventListener("click", () => {
         const number = button.dataset.number;
@@ -183,7 +172,6 @@ async function loadThread() {
       });
     });
 
-    // ✅ いいねボタン処理
     document.querySelectorAll(".like-button").forEach(button => {
       button.addEventListener("click", async () => {
         const postId = button.dataset.id;
@@ -206,7 +194,7 @@ async function loadThread() {
 
 loadThread();
 
-// ✅ 投稿処理（画像アップなしバージョン）
+// ✅ 投稿フォーム処理（updateエラーのみ無視）
 if (replyForm) {
   replyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -221,12 +209,7 @@ if (replyForm) {
     const name = replyForm.name.value.trim() || "Anonymous";
     const content = replyForm.content.value.trim();
 
-    if (!content) {
-      alert("Please enter some content.");
-      return;
-    }
-
-    if (content.length < 5) {
+    if (!content || content.length < 5) {
       alert("Your reply must be at least 5 characters.");
       return;
     }
@@ -242,13 +225,18 @@ if (replyForm) {
         likes: 0
       });
 
-      await updateDoc(doc(db, "threads", threadId), {
-        latestReplyAt: serverTimestamp(),
-        replyCount: increment(1)
-      });
+      try {
+        await updateDoc(doc(db, "threads", threadId), {
+          latestReplyAt: serverTimestamp(),
+          replyCount: increment(1)
+        });
+      } catch (e2) {
+        console.warn("Thread update failed (not critical):", e2);
+      }
 
       localStorage.setItem("lastPostTime", now.toString());
       location.reload();
+
     } catch (err) {
       console.error("Error posting reply:", err);
       alert("Failed to post reply. Please try again.");
