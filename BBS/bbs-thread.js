@@ -219,7 +219,6 @@ if (replyForm) {
     }
 
     try {
-      // ✅ imageUrl: null を完全に削除
       await addDoc(collection(db, "threads", threadId, "posts"), {
         name,
         content,
@@ -228,23 +227,20 @@ if (replyForm) {
         reported: false,
         likes: 0
       });
-    } catch (err) {
-      console.error("Post failed:", err);
-      alert("Failed to post reply. Please try again.");
-      return;
-    }
 
-    try {
       await updateDoc(doc(db, "threads", threadId), {
         latestReplyAt: serverTimestamp(),
         replyCount: increment(1)
       });
-    } catch (err2) {
-      console.warn("⚠ 投稿は成功したが replyCount の更新に失敗しました：", err2);
-      alert("Reply posted, but thread counter failed to update.");
-    }
 
-    localStorage.setItem("lastPostTime", now.toString());
-    location.reload();
+      localStorage.setItem("lastPostTime", now.toString());
+      location.reload();
+
+    } catch (err) {
+      console.error("Reply or counter update failed:", err);
+      alert("Reply posted, but thread counter failed to update.");
+      localStorage.setItem("lastPostTime", now.toString());
+      location.reload();
+    }
   });
 }
