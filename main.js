@@ -229,7 +229,7 @@ modal.addEventListener("click", e => {
   if (e.target === modal) closeModal();
 });
 
-// ✅ イベントバインドを先に済ませる
+// ✅ イベントリスナー先に設定
 categoryButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     if (btn.disabled) return;
@@ -245,6 +245,14 @@ currencySelect.addEventListener("change", () => {
   updateCharts();
 });
 
-// ✅ 初期表示は最後に
+// ✅ 初回に active を付与してから表示
+categoryButtons.forEach(b => {
+  if (b.dataset.category === currentCategory) {
+    b.classList.add("active");
+  } else {
+    b.classList.remove("active");
+  }
+});
+
 loadChartsByCategory();
 setInterval(updateCharts, 1000);
