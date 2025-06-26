@@ -113,14 +113,13 @@
   </header>
   
   <main>
+    <!-- 📝 審査用メッセージ -->
     <div class="notice">
       📝 This community board is currently under development. All users can post freely, but moderation features are still being tested.
     </div>    
 
-    <a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
-
-    <!-- ✅ 折りたたみ式ガイドライン -->
-    <div class="notice" style="margin-top: 20px;">
+    <!-- 📌 ガイドラインをここに移動 -->
+    <div class="notice" style="margin-top: -10px;">
       <h3 style="margin: 0; cursor: pointer;" onclick="toggleGuidelines()">
         📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span>
       </h3>
@@ -136,16 +135,19 @@
       </div>
     </div>
 
-    <!-- ✅ カテゴリタブ -->
+    <!-- 投稿ボタン -->
+    <a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
+
+    <!-- カテゴリタブ -->
     <div class="category-tabs">
       <button class="category-tab active" data-category="Indices">Indices</button>
       <button class="category-tab" data-category="Forex">Forex</button>
       <button class="category-tab" data-category="Crypto">Crypto</button>
     </div>
 
-    <!-- ✅ スレッド一覧 -->
+    <!-- スレッド一覧 -->
     <ul class="thread-list" id="thread-list">
-      <!-- スレッド一覧はJSで動的に挿入される -->
+      <!-- スレッドはJSで挿入される -->
     </ul>
   </main>
 
@@ -164,11 +166,11 @@
     </p>
   </footer>  
 
-  <!-- ✅ Firebase 初期化 & スレッド取得 -->
+  <!-- Firebase & スレ取得 -->
   <script type="module" src="firebase-init.js"></script>
   <script type="module" src="bbs.js"></script>
 
-  <!-- ✅ ガイドライン折りたたみ処理 -->
+  <!-- トグル処理 -->
   <script>
     function toggleGuidelines() {
       const box = document.getElementById('guidelines-content');
