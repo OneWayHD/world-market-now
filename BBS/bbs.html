@@ -119,16 +119,21 @@
 
     <a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
 
+    <!-- ✅ 折りたたみ式ガイドライン -->
     <div class="notice" style="margin-top: 20px;">
-      <h3 style="margin-top: 0;">📌 Community Guidelines</h3>
-      <ul style="font-size: 14px; padding-left: 20px;">
-        <li>⚠ All posts are public and viewable by anyone.</li>
-        <li>🚫 Offensive, abusive, or inappropriate content is strictly prohibited.</li>
-        <li>🧾 Posts must be at least 5 characters. Inappropriate posts may be reported or deleted.</li>
-        <li>🔍 Content is reviewed and moderated by administrators.</li>
-        <li>👤 Anonymous or temporary IDs are used, but violations may lead to restrictions.</li>
-        <li>📄 See our <a href="../terms.html" target="_blank">Terms of Use</a> for details.</li>
-      </ul>
+      <h3 style="margin: 0; cursor: pointer;" onclick="toggleGuidelines()">
+        📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span>
+      </h3>
+      <div id="guidelines-content" style="display: none; margin-top: 12px;">
+        <ul style="font-size: 14px; padding-left: 20px;">
+          <li>⚠ All posts are public and viewable by anyone.</li>
+          <li>🚫 Offensive, abusive, or inappropriate content is strictly prohibited.</li>
+          <li>🧾 Posts must be at least 5 characters. Inappropriate posts may be reported or deleted.</li>
+          <li>🔍 Content is reviewed and moderated by administrators.</li>
+          <li>👤 Anonymous or temporary IDs are used, but violations may lead to restrictions.</li>
+          <li>📄 See our <a href="../terms.html" target="_blank">Terms of Use</a> for details.</li>
+        </ul>
+      </div>
     </div>
 
     <!-- ✅ カテゴリタブ -->
@@ -162,5 +167,16 @@
   <!-- ✅ Firebase 初期化 & スレッド取得 -->
   <script type="module" src="firebase-init.js"></script>
   <script type="module" src="bbs.js"></script>
+
+  <!-- ✅ ガイドライン折りたたみ処理 -->
+  <script>
+    function toggleGuidelines() {
+      const box = document.getElementById('guidelines-content');
+      const symbol = document.getElementById('guidelines-toggle-symbol');
+      const isVisible = box.style.display === 'block';
+      box.style.display = isVisible ? 'none' : 'block';
+      symbol.textContent = isVisible ? '▼' : '▲';
+    }
+  </script>
 </body>
 </html>
