@@ -144,21 +144,6 @@ function updateCharts() {
   });
 }
 
-categoryButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (btn.disabled) return;
-    categoryButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentCategory = btn.dataset.category;
-    loadChartsByCategory();
-  });
-});
-
-currencySelect.addEventListener("change", () => {
-  currentCurrency = currencySelect.value;
-  updateCharts();
-});
-
 function loadChartsByCategory() {
   chartContainer.innerHTML = "";
   charts = [];
@@ -244,5 +229,22 @@ modal.addEventListener("click", e => {
   if (e.target === modal) closeModal();
 });
 
+// ✅ イベントバインドを先に済ませる
+categoryButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (btn.disabled) return;
+    categoryButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCategory = btn.dataset.category;
+    loadChartsByCategory();
+  });
+});
+
+currencySelect.addEventListener("change", () => {
+  currentCurrency = currencySelect.value;
+  updateCharts();
+});
+
+// ✅ 初期表示は最後に
 loadChartsByCategory();
 setInterval(updateCharts, 1000);
