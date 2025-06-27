@@ -21,6 +21,9 @@ h1 {
   margin: 0;
   font-size: clamp(1.8rem, 6vw, 2.5rem);
   padding: 20px 0 10px;
+  white-space: nowrap;          /* ← 改行を防ぐ */
+  overflow: hidden;             /* ← はみ出し非表示（念のため） */
+  text-overflow: ellipsis;      /* ← はみ出したら省略記号 */
 }
 
 .language-select {
