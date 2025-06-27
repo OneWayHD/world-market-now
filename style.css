@@ -223,10 +223,10 @@ footer {
 
 /* ✅ スレッド一覧表示（Hotタブなど）用ラベル */
 .category-label-top {
-  display: block;                    /* ← 横並びじゃなく縦表示 */
-  font-size: 12px;
-  font-weight: bold;
-  padding: 3px 10px;
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
   border-radius: 9999px;
   color: white;
   margin-bottom: 4px;
@@ -234,6 +234,7 @@ footer {
   margin-left: 0;
   text-align: left;
   width: fit-content;
+  line-height: 1.2;
 }
 
 /* ✅ 背景色だけカテゴリ別で切り替え */
