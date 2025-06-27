@@ -224,19 +224,18 @@ footer {
 /* ✅ スレッド一覧表示（Hotタブなど）用ラベル */
 .category-label-top {
   display: block;
-  font-size: 8.5px;          /* ← 極小ライン（9px以下） */
-  font-weight: 500;          /* ← 軽め細字 */
-  padding: 1px 6px;          /* ← 少しだけ余白を確保 */
+  font-size: 8.5px;
+  font-weight: 500;
+  padding: 2px 6px;           /* ← ここがポイント！（上下2px、横6px） */
   border-radius: 9999px;
   color: white;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   margin-top: 0;
-  margin-left: 0;
   text-align: left;
   width: fit-content;
   line-height: 1;
-  opacity: 0.9;              /* ← 視認性をやや抑えてなじませる */
-  letter-spacing: 0.2px;     /* ← 詰まりすぎ防止（視認性キープ） */
+  opacity: 0.9;
+  letter-spacing: 0.2px;
 }
 
 /* ✅ 背景色だけカテゴリ別で切り替え */
