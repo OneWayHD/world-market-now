@@ -4,7 +4,8 @@ import {
   query,
   where,
   orderBy,
-  getDocs
+  getDocs,
+  limit
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 // ✅ Firestoreインスタンス
@@ -14,19 +15,31 @@ const db = window.db;
 const threadList = document.getElementById("thread-list");
 const categoryTabs = document.querySelectorAll(".category-tab");
 
-// ✅ 選択中カテゴリ（初期値：Indices）
-let selectedCategory = "Indices";
+// ✅ 初期選択（Hot）
+let selectedCategory = "Hot";
 
-// ✅ スレッド読み込み処理（カテゴリ別）
+// ✅ スレッド読み込み処理（Hot or 通常カテゴリ）
 async function loadThreadsByCategory(category) {
   threadList.innerHTML = "<p style='color:#64748b;'>Loading threads...</p>";
 
   const threadsRef = collection(db, "threads");
-  const q = query(
-    threadsRef,
-    where("category", "==", category),
-    orderBy("latestReplyAt", "desc")
-  );
+  let q;
+
+  if (category === "Hot") {
+    q = query(
+      threadsRef,
+      orderBy("latestReplyAt", "desc"),
+      orderBy("replyCount", "desc"),
+      limit(20)
+    );
+  } else {
+    q = query(
+      threadsRef,
+      where("category", "==", category),
+      orderBy("latestReplyAt", "desc"),
+      limit(20)
+    );
+  }
 
   try {
     const snapshot = await getDocs(q);
@@ -45,9 +58,20 @@ async function loadThreadsByCategory(category) {
       const replyCount = data.replyCount ?? 0;
       const updatedAt = data.latestReplyAt?.toDate().toISOString().split("T")[0] ?? "Unknown";
 
+      const category = data.category || "Unknown";
+      const classMap = {
+        Indices: "category-label-indices",
+        Forex: "category-label-forex",
+        Crypto: "category-label-crypto"
+      };
+      const labelClass = classMap[category] || "category-label-unknown";
+
+      const labelHTML = `<div class="category-label-top ${labelClass}">${category}</div>`;
+
       html += `
         <li class="thread-item">
-          <a href="bbs-thread.html?id=${id}">${title}</a>
+          ${labelHTML}
+          <a href="bbs-thread.html?id=${id}" class="thread-title">${title}</a>
           <div class="thread-meta">Posts: ${replyCount} ｜ Last Updated: ${updatedAt}</div>
         </li>
       `;
@@ -70,5 +94,5 @@ categoryTabs.forEach(tab => {
   });
 });
 
-// ✅ 初期読み込み（Indices）
+// ✅ 初期読み込み（Hot）
 loadThreadsByCategory(selectedCategory);

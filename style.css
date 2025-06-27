@@ -201,7 +201,7 @@ footer {
   color: #0369a1;
 }
 
-/* ✅ カテゴリラベル */
+/* ✅ スレッド詳細ページ用カテゴリラベル */
 .category-label {
   display: inline-block;
   font-size: 13px;
@@ -211,7 +211,6 @@ footer {
   color: white;
   margin-bottom: 6px;
 }
-
 .category-indices {
   background-color: #0ea5e9;
 }
@@ -220,6 +219,32 @@ footer {
 }
 .category-crypto {
   background-color: #f59e0b;
+}
+
+/* ✅ スレッド一覧表示（Hotタブなど）用ラベル */
+.category-label-top {
+  display: block;                    /* ← 横並びじゃなく縦表示 */
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  color: white;
+  margin-bottom: 4px;
+  margin-top: -2px;
+  margin-left: 0;
+  text-align: left;
+  width: fit-content;
+}
+
+/* ✅ 背景色だけカテゴリ別で切り替え */
+.category-label-indices {
+  background-color: #ec4899; /* ピンク */
+}
+.category-label-forex {
+  background-color: #10b981; /* 緑 */
+}
+.category-label-crypto {
+  background-color: #f59e0b; /* オレンジ */
 }
 
 @media (max-width: 640px) {

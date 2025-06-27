@@ -111,14 +111,13 @@
       </a>
     </div>
   </header>
-  
+
   <main>
     <!-- 📝 審査用メッセージ -->
     <div class="notice">
       📝 This community board is currently under development. All users can post freely, but moderation features are still being tested.
-    </div>    
+    </div>
 
-    <!-- 📌 ガイドラインをここに移動 -->
     <div class="notice" style="margin-top: -10px;">
       <h3 style="margin: 0; cursor: pointer;" onclick="toggleGuidelines()">
         📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span>
@@ -135,12 +134,12 @@
       </div>
     </div>
 
-    <!-- 投稿ボタン -->
     <a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
 
-    <!-- カテゴリタブ -->
+    <!-- ✅ ここが修正部分：Hotタブ追加 -->
     <div class="category-tabs">
-      <button class="category-tab active" data-category="Indices">Indices</button>
+      <button class="category-tab active" data-category="Hot">🔥 Hot</button>
+      <button class="category-tab" data-category="Indices">Indices</button>
       <button class="category-tab" data-category="Forex">Forex</button>
       <button class="category-tab" data-category="Crypto">Crypto</button>
     </div>
@@ -164,7 +163,7 @@
         &copy; 2025 World Market Now
       </a>
     </p>
-  </footer>  
+  </footer>
 
   <!-- Firebase & スレ取得 -->
   <script type="module" src="firebase-init.js"></script>
