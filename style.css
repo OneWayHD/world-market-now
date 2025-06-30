@@ -8,6 +8,29 @@ html, body {
   color: #111;
 }
 
+/* ✅ 中央に寄せる記事レイアウト（←今回追加） */
+.article-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+.article-container h1,
+.article-container h2,
+.article-container h3 {
+  margin-top: 2em;
+  line-height: 1.4;
+}
+.article-container p,
+.article-container ul,
+.article-container ol {
+  margin-bottom: 1.2em;
+}
+.article-container ul {
+  padding-left: 1.2em;
+}
+
 header {
   width: 100vw;
   background-color: #0f172a;
@@ -21,9 +44,9 @@ h1 {
   margin: 0;
   font-size: clamp(1.8rem, 6vw, 2.5rem);
   padding: 20px 0 10px;
-  white-space: nowrap;          /* ← 改行を防ぐ */
-  overflow: hidden;             /* ← はみ出し非表示（念のため） */
-  text-overflow: ellipsis;      /* ← はみ出したら省略記号 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .language-select {
@@ -194,7 +217,6 @@ footer {
   margin-bottom: 12px;
 }
 
-/* ✅ アンカーリンク（>>番号） */
 .anchor-link {
   color: #0ea5e9;
   text-decoration: underline;
@@ -204,7 +226,6 @@ footer {
   color: #0369a1;
 }
 
-/* ✅ スレッド詳細ページ用カテゴリラベル */
 .category-label {
   display: inline-block;
   font-size: 13px;
@@ -224,12 +245,11 @@ footer {
   background-color: #f59e0b;
 }
 
-/* ✅ スレッド一覧表示（Hotタブなど）用ラベル */
 .category-label-top {
   display: block;
   font-size: 8.5px;
   font-weight: 500;
-  padding: 2px 6px;           /* ← ここがポイント！（上下2px、横6px） */
+  padding: 2px 6px;
   border-radius: 9999px;
   color: white;
   margin-bottom: 3px;
@@ -240,16 +260,14 @@ footer {
   opacity: 0.9;
   letter-spacing: 0.2px;
 }
-
-/* ✅ 背景色だけカテゴリ別で切り替え */
 .category-label-indices {
-  background-color: #ec4899; /* ピンク */
+  background-color: #ec4899;
 }
 .category-label-forex {
-  background-color: #10b981; /* 緑 */
+  background-color: #10b981;
 }
 .category-label-crypto {
-  background-color: #f59e0b; /* オレンジ */
+  background-color: #f59e0b;
 }
 
 @media (max-width: 640px) {
@@ -267,4 +285,14 @@ footer {
   .chart-card canvas {
     max-width: 100%;
   }
+}
+
+.ogp-image {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.ogp-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
