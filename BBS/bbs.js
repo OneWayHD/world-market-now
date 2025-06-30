@@ -60,10 +60,10 @@ async function loadThreadsByCategory(category) {
 
       const category = data.category || "Unknown";
       const classMap = {
-        Indices: "category-label-indices",
+        "Indices & Stocks": "category-label-indices", // ← ピンク
         Forex: "category-label-forex",
         Crypto: "category-label-crypto"
-      };
+      };      
       const labelClass = classMap[category] || "category-label-unknown";
 
       const labelHTML = `<div class="category-label-top ${labelClass}">${category}</div>`;
