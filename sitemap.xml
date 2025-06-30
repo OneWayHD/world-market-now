@@ -1,43 +1,66 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- トップ・基本ページ -->
   <url>
     <loc>https://wmktnow.com/</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
   </url>
   <url>
     <loc>https://wmktnow.com/about.html</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
   </url>
   <url>
     <loc>https://wmktnow.com/privacy.html</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
   </url>
   <url>
     <loc>https://wmktnow.com/contact.html</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
   </url>
   <url>
     <loc>https://wmktnow.com/articles.html</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
   </url>
-  <url>
-    <loc>https://wmktnow.com/articles/what-is-a-stock-index.html</loc>
-    <lastmod>2025-06-17</lastmod>
-  </url>
+
+  <!-- 記事ページ（10本） -->
   <url>
     <loc>https://wmktnow.com/articles/what-is-forex.html</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
   </url>
   <url>
     <loc>https://wmktnow.com/articles/what-is-crypto.html</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
   </url>
   <url>
     <loc>https://wmktnow.com/articles/what-is-etf.html</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://wmktnow.com/articles/what-is-a-stock-index.html</loc>
+    <lastmod>2025-06-30</lastmod>
   </url>
   <url>
     <loc>https://wmktnow.com/articles/market-volatility-guide.html</loc>
-    <lastmod>2025-06-17</lastmod>
+    <lastmod>2025-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://wmktnow.com/articles/how-interest-rates-impact-markets.html</loc>
+    <lastmod>2025-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://wmktnow.com/articles/understanding-inflation-and-cpi.html</loc>
+    <lastmod>2025-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://wmktnow.com/articles/the-role-of-central-banks.html</loc>
+    <lastmod>2025-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://wmktnow.com/articles/long-term-vs-day-trading.html</loc>
+    <lastmod>2025-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://wmktnow.com/articles/how-to-read-candlestick-chart.html</loc>
+    <lastmod>2025-06-30</lastmod>
   </url>
 </urlset>
