@@ -11,10 +11,7 @@
   <meta name="author" content="One Way HD Co., Ltd.">
 
   <meta name="google-site-verification" content="HHGDx68bEfBiDOGwsEU5KjM90uqtig6IZUqUrl58Ifg" />
-
-  <!-- ✅ AdSense 手動広告用スクリプト -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182" crossorigin="anonymous"></script>
 
   <meta property="og:title" content="World Market Now">
   <meta property="og:description" content="Real-time global market data for stocks, currencies, and cryptocurrencies.">
@@ -27,7 +24,6 @@
   <meta name="twitter:description" content="Stay updated with real-time stock indices, forex, and crypto data.">
   <meta name="twitter:image" content="https://wmktnow.com/ogp.jpg">
 
-  <!-- ✅ GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJ6LBW5FVP"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -42,36 +38,39 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
-
   <style>
-    .language-select {
+    .settings-trigger {
       position: absolute;
       top: 10px;
-      right: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+      z-index: 1000;
     }
-
-    .language-select select {
-      padding: 4px 8px;
-      font-size: 12px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+    .settings-panel {
+      display: none;
+      position: absolute;
+      top: 44px;
+      right: 10px;
+      width: 220px;
+      padding: 16px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 999;
     }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(1.8rem, 6vw, 2.5rem);
-      padding: 20px 0 10px;
+    .settings-panel label {
+      font-weight: bold;
+      font-size: 13px;
     }
-
-    @media (max-width: 640px) {
-      .language-select {
-        top: 4px;
-        right: 8px;
-      }
+    .settings-panel select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 6px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -80,7 +79,9 @@
     <h1>World Market Now</h1>
   </header>
 
-  <div class="language-select">
+  <button id="toggle-settings" class="settings-trigger">🌐</button>
+  <div id="settings-panel" class="settings-panel">
+    <label>Language</label>
     <select id="language">
       <option value="en" selected>English</option>
       <option value="ja" disabled>日本語</option>
@@ -89,7 +90,7 @@
       <option value="zh" disabled>中文</option>
       <option value="hi" disabled>हिन्दी</option>
     </select>
-
+    <label>Currency</label>
     <select id="currency">
       <option value="USD" selected>USD</option>
       <option value="JPY">JPY</option>
@@ -105,7 +106,6 @@
     <button class="category-btn" onclick="location.href='BBS/bbs.html'">Board</button>
   </div>  
 
-  <!-- ✅ 手動広告ユニット（タブとチャートの間／高さ90px） -->
   <div style="margin: 2px auto 0; text-align: center; max-width: 728px;">
     <ins class="adsbygoogle"
          style="display:inline-block; width:100%; height:90px;"
@@ -120,7 +120,6 @@
     <!-- チャートがここに動的に挿入される -->
   </main>
 
-  <!-- ✅ Multiplex広告（チャートカード風に表示） -->
   <div class="chart-card" style="max-height: 400px; overflow: hidden;">
     <ins class="adsbygoogle"
          style="display:block; height: 100%;"
@@ -164,6 +163,19 @@
         .then(() => console.log('✅ Service Worker registered'))
         .catch(err => console.error('❌ Service Worker failed', err));
     }
+
+    const toggleBtn = document.getElementById("toggle-settings");
+    const panel = document.getElementById("settings-panel");
+
+    toggleBtn.addEventListener("click", () => {
+      panel.style.display = panel.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!panel.contains(e.target) && e.target !== toggleBtn) {
+        panel.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
