@@ -30,7 +30,7 @@
       background-color: #fff3cd;
       color: #856404;
       padding: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 10px; /* 🔧 余白を縮めた */
       border: 1px solid #ffeeba;
       border-radius: 4px;
     }
@@ -44,36 +44,38 @@
       border-radius: 4px;
       text-decoration: none;
       font-size: 14px;
-      margin-bottom: 20px;
+      margin-top: 6px;      /* 🔧 余白を縮めた */
+      margin-bottom: 10px;  /* 🔧 余白を縮めた */
     }
 
     .category-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-bottom: 12px;
-  box-sizing: border-box;
-  padding: 0;
-  width: 100%;
-}
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 0;        /* 🔧 上マージン除去 */
+      margin-bottom: 8px;   /* 🔧 余白を縮めた */
+      box-sizing: border-box;
+      padding: 0;
+      width: 100%;
+    }
 
-.category-tab {
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 12px;        /* ← 横幅余白追加！ */
-  border: none;
-  border-radius: 6px;
-  background-color: #94a3b8;
-  color: #fff;
-  cursor: pointer;
-  text-align: center;
-  white-space: nowrap;
-  width: 100%;
-}
+    .category-tab {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      background-color: #94a3b8;
+      color: #fff;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+      width: 100%;
+    }
 
-.category-tab.active {
-  background-color: #0ea5e9;
-}
+    .category-tab.active {
+      background-color: #0ea5e9;
+    }
 
     .thread-list {
       list-style: none;
@@ -121,6 +123,7 @@
 
   <main>
 
+    <!-- 📌 ガイドライン -->
     <div class="notice" style="margin-top: -10px;">
       <h3 style="margin: 0; cursor: pointer;" onclick="toggleGuidelines()">
         📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span>
@@ -137,26 +140,27 @@
       </div>
     </div>
 
+    <!-- 🔘 スレッド作成ボタン -->
     <a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
 
     <!-- タブ表示 -->
-<div class="category-tabs">
-  <button class="category-tab active" data-category="Hot">🔥 Hot</button>
-  <button class="category-tab" data-category="Indices & Stocks">Indices & Stocks</button> <!-- ← 修正 -->
-  <button class="category-tab" data-category="Forex">Forex</button>
-  <button class="category-tab" data-category="Crypto">Crypto</button>
-</div>
+    <div class="category-tabs">
+      <button class="category-tab active" data-category="Hot">🔥 Hot</button>
+      <button class="category-tab" data-category="Indices & Stocks">Indices & Stocks</button>
+      <button class="category-tab" data-category="Forex">Forex</button>
+      <button class="category-tab" data-category="Crypto">Crypto</button>
+    </div>
 
-<!-- ✅ 修正版：60px → 90pxで表示安定 -->
-<div style="margin: 16px auto 12px; text-align: center; max-width: 728px;">
-  <ins class="adsbygoogle"
-       style="display:inline-block; width:100%; height:90px;"
-       data-ad-client="ca-pub-3836772651637182"
-       data-ad-slot="6566583745"></ins>
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-</div>
+    <!-- 🔳 カテゴリタブ下のバナー広告（90px） -->
+    <div style="margin: 16px auto 12px; text-align: center; max-width: 728px;">
+      <ins class="adsbygoogle"
+           style="display:inline-block; width:100%; height:90px;"
+           data-ad-client="ca-pub-3836772651637182"
+           data-ad-slot="6566583745"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
 
     <!-- スレッド一覧 -->
     <ul class="thread-list" id="thread-list">
