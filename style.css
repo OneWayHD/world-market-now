@@ -365,3 +365,12 @@ footer p a:hover {
   text-overflow: unset;
   word-break: break-word;
 }
+
+/* ✅ 広告がスマホではみ出ないようにする */
+ins.adsbygoogle {
+  display: block;
+  width: 100%;
+  max-width: 728px;
+  height: auto;
+  margin: 0 auto;
+}

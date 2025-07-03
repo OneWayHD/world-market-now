@@ -119,12 +119,12 @@ async function loadThread() {
         </li>
       `;
 
-      // ✅ 5件ごとに広告を挿入
+      // ✅ スマホ対応：5件ごとに width: 100%; max-width: 728px の広告を追加
       if (index % 5 === 0) {
         html += `
           <li class="post" style="text-align: center; padding: 16px;">
             <ins class="adsbygoogle"
-                 style="display:inline-block;width:728px;height:90px"
+                 style="display:inline-block;width:100%;max-width:728px;height:90px"
                  data-ad-client="ca-pub-3836772651637182"
                  data-ad-slot="6566583745"></ins>
             <script>
