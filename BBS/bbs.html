@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Community Board | World Market Now</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
@@ -29,10 +29,19 @@
     .notice {
       background-color: #fff3cd;
       color: #856404;
-      padding: 10px;
-      margin-bottom: 10px; /* 🔧 余白を縮めた */
+      padding: 6px;
+      margin-bottom: 8px;
       border: 1px solid #ffeeba;
       border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .notice h3 {
+      font-size: 14px;
+      margin: 0;
+      cursor: pointer;
+      font-weight: 600;
     }
 
     .create-button {
@@ -44,19 +53,16 @@
       border-radius: 4px;
       text-decoration: none;
       font-size: 14px;
-      margin-top: 6px;      /* 🔧 余白を縮めた */
-      margin-bottom: 10px;  /* 🔧 余白を縮めた */
+      margin-top: 6px;
+      margin-bottom: 10px;
     }
 
     .category-tabs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
-      margin-top: 0;        /* 🔧 上マージン除去 */
-      margin-bottom: 8px;   /* 🔧 余白を縮めた */
-      box-sizing: border-box;
-      padding: 0;
-      width: 100%;
+      margin-top: 0;
+      margin-bottom: 8px;
     }
 
     .category-tab {
@@ -109,6 +115,17 @@
       font-size: 12px;
       color: #666;
     }
+
+    .ad-slot {
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .ad-slot ins {
+      display: inline-block;
+      width: 100%;
+      height: 90px;
+    }
   </style>
 </head>
 <body>
@@ -122,14 +139,11 @@
   </header>
 
   <main>
-
     <!-- 📌 ガイドライン -->
-    <div class="notice" style="margin-top: -10px;">
-      <h3 style="margin: 0; cursor: pointer;" onclick="toggleGuidelines()">
-        📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span>
-      </h3>
-      <div id="guidelines-content" style="display: none; margin-top: 12px;">
-        <ul style="font-size: 14px; padding-left: 20px;">
+    <div class="notice">
+      <h3 onclick="toggleGuidelines()">📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span></h3>
+      <div id="guidelines-content" style="display: none; margin-top: 8px;">
+        <ul style="font-size: 13px; padding-left: 20px; text-align: left;">
           <li>⚠ All posts are public and viewable by anyone.</li>
           <li>🚫 Offensive, abusive, or inappropriate content is strictly prohibited.</li>
           <li>🧾 Posts must be at least 5 characters. Inappropriate posts may be reported or deleted.</li>
@@ -143,7 +157,7 @@
     <!-- 🔘 スレッド作成ボタン -->
     <a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
 
-    <!-- タブ表示 -->
+    <!-- 🔘 カテゴリタブ -->
     <div class="category-tabs">
       <button class="category-tab active" data-category="Hot">🔥 Hot</button>
       <button class="category-tab" data-category="Indices & Stocks">Indices & Stocks</button>
@@ -151,20 +165,19 @@
       <button class="category-tab" data-category="Crypto">Crypto</button>
     </div>
 
-    <!-- 🔳 カテゴリタブ下のバナー広告（90px） -->
-    <div style="margin: 16px auto 12px; text-align: center; max-width: 728px;">
+    <!-- 🔳 カテゴリタブ下のバナー広告 -->
+    <div class="ad-slot">
       <ins class="adsbygoogle"
-           style="display:inline-block; width:100%; height:90px;"
            data-ad-client="ca-pub-3836772651637182"
            data-ad-slot="6566583745"></ins>
       <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
     </div>
 
-    <!-- スレッド一覧 -->
+    <!-- 🧵 スレッド一覧 -->
     <ul class="thread-list" id="thread-list">
-      <!-- スレッドはJSで挿入される -->
+      <!-- JSで生成 -->
     </ul>
   </main>
 
@@ -187,7 +200,7 @@
   <script type="module" src="firebase-init.js"></script>
   <script type="module" src="bbs.js"></script>
 
-  <!-- トグル処理 -->
+  <!-- トグル制御 -->
   <script>
     function toggleGuidelines() {
       const box = document.getElementById('guidelines-content');
