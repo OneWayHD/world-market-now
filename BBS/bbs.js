@@ -50,6 +50,8 @@ async function loadThreadsByCategory(category) {
     }
 
     let html = "";
+    let count = 0;
+
     snapshot.forEach(doc => {
       const data = doc.data();
       const id = doc.id;
@@ -57,15 +59,14 @@ async function loadThreadsByCategory(category) {
       const title = data.title || "(no title)";
       const replyCount = data.replyCount ?? 0;
       const updatedAt = data.latestReplyAt?.toDate().toISOString().split("T")[0] ?? "Unknown";
-
       const category = data.category || "Unknown";
+
       const classMap = {
-        "Indices & Stocks": "category-label-indices", // ← ピンク
+        "Indices & Stocks": "category-label-indices",
         Forex: "category-label-forex",
         Crypto: "category-label-crypto"
-      };      
+      };
       const labelClass = classMap[category] || "category-label-unknown";
-
       const labelHTML = `<div class="category-label-top ${labelClass}">${category}</div>`;
 
       html += `
@@ -75,6 +76,24 @@ async function loadThreadsByCategory(category) {
           <div class="thread-meta">Posts: ${replyCount} ｜ Last Updated: ${updatedAt}</div>
         </li>
       `;
+
+      count++;
+
+      // ✅ 5件ごとに広告挿入（スレッドと同じ見た目）
+      if (count % 5 === 0) {
+        html += `
+          <li class="thread-item">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-format="autorelaxed"
+                 data-ad-client="ca-pub-3836772651637182"
+                 data-ad-slot="3700747259"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </li>
+        `;
+      }
     });
 
     threadList.innerHTML = html;
