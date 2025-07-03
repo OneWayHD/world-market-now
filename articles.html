@@ -6,124 +6,179 @@
   <title>Articles | World Market Now</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .articles-container {
-      max-width: 800px;
-      margin: 60px auto;
+    main {
       padding: 20px;
-      line-height: 1.7;
-      font-size: 16px;
+      max-width: 960px;
+      margin: auto;
     }
+
     h1 {
       text-align: center;
-      margin-bottom: 40px;
+      font-size: 24px;
+      margin-bottom: 20px;
     }
-    .article-preview {
-      margin-bottom: 40px;
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
     }
-    .article-preview h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
+
+    .article-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
     }
-    .article-preview p {
-      margin-bottom: 10px;
+
+    .article-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
     }
-    .article-preview a {
-      color: #0ea5e9;
-      text-decoration: underline;
+
+    .article-card .card-body {
+      padding: 12px 16px;
+    }
+
+    .article-card .card-body h2 {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0 0 8px;
+    }
+
+    .article-card .card-body p {
+      font-size: 14px;
+      color: #64748b;
+      margin: 0;
+    }
+
+    .chart-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      padding: 16px;
+      margin-top: 32px;
+      max-width: 728px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
 <body>
 
-  <!-- ✅ ヘッダー追加 -->
-  <header style="text-align: center; padding: 24px 0; background-color: #0f172a;">
-    <a href="index.html" style="color: white; text-decoration: none; font-size: 24px; font-weight: bold;">
-      World Market Now
-    </a>
-  </header>
+  <main>
+    <h1>Market Insights & Guides</h1>
+    <div class="articles-grid">
 
-  <div class="articles-container">
-    <h1>Articles</h1>
+      <!-- 記事カード一覧（仮画像） -->
+      <a class="article-card" href="articles/what-is-forex.html">
+        <img src="articles/images/ogp.jpg" alt="Forex">
+        <div class="card-body">
+          <h2>What is Forex?</h2>
+          <p>Learn the fundamentals of the foreign exchange market and how it works.</p>
+        </div>
+      </a>
 
-    <div class="article-preview">
-      <h2>What is a Stock Index?</h2>
-      <p>
-        Learn how stock indices like the Dow Jones, S&P 500, and Nikkei 225 work, why they matter, and how investors use them.
-      </p>
-      <a href="articles/what-is-a-stock-index.html">Read full article →</a>
+      <a class="article-card" href="articles/what-is-crypto.html">
+        <img src="articles/images/ogp.jpg" alt="Crypto">
+        <div class="card-body">
+          <h2>What is Cryptocurrency?</h2>
+          <p>Understand digital assets like Bitcoin, Ethereum, and how to trade them.</p>
+        </div>
+      </a>
+
+      <a class="article-card" href="articles/what-is-etf.html">
+        <img src="articles/images/ogp.jpg" alt="ETF">
+        <div class="card-body">
+          <h2>What is an ETF?</h2>
+          <p>Explore exchange-traded funds and how they fit in modern portfolios.</p>
+        </div>
+      </a>
+
+      <a class="article-card" href="articles/market-volatility-guide.html">
+        <img src="articles/images/ogp.jpg" alt="Volatility">
+        <div class="card-body">
+          <h2>Market Volatility Explained</h2>
+          <p>What causes volatility and how investors manage risk in turbulent times.</p>
+        </div>
+      </a>
+
+      <a class="article-card" href="articles/how-interest-rates-impact-markets.html">
+        <img src="articles/images/ogp.jpg" alt="Interest Rates">
+        <div class="card-body">
+          <h2>How Interest Rates Impact Markets</h2>
+          <p>Discover how central bank policies affect stock and currency markets.</p>
+        </div>
+      </a>
+
+      <a class="article-card" href="articles/understanding-inflation-cpi.html">
+        <img src="articles/images/ogp.jpg" alt="Inflation">
+        <div class="card-body">
+          <h2>Understanding Inflation & CPI</h2>
+          <p>Inflation metrics demystified—what CPI means and how it's used.</p>
+        </div>
+      </a>
+
+      <a class="article-card" href="articles/role-of-central-banks.html">
+        <img src="articles/images/ogp.jpg" alt="Central Banks">
+        <div class="card-body">
+          <h2>The Role of Central Banks</h2>
+          <p>How central banks influence monetary policy and economic stability.</p>
+        </div>
+      </a>
+
+      <a class="article-card" href="articles/long-term-vs-day-trading.html">
+        <img src="articles/images/ogp.jpg" alt="Trading Styles">
+        <div class="card-body">
+          <h2>Long-Term Investing vs Day Trading</h2>
+          <p>Compare strategies for building wealth: patient investing or fast-paced trading?</p>
+        </div>
+      </a>
+
+      <a class="article-card" href="articles/how-to-read-candlestick-chart.html">
+        <img src="articles/images/ogp.jpg" alt="Candlestick">
+        <div class="card-body">
+          <h2>How to Read a Candlestick Chart</h2>
+          <p>Master the basics of candlestick patterns and market psychology.</p>
+        </div>
+      </a>
+
     </div>
 
-    <div class="article-preview">
-      <h2>What is Forex and How Does It Work?</h2>
-      <p>
-        An introduction to the foreign exchange market, major currency pairs, and how forex trading affects global finance.
-      </p>
-      <a href="articles/what-is-forex.html">Read full article →</a>
+    <!-- 📢 Multiplex広告（自然に続くカード風） -->
+    <div class="chart-card">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-format="autorelaxed"
+           data-ad-client="ca-pub-3836772651637182"
+           data-ad-slot="3700747259"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
+  </main>
 
-    <div class="article-preview">
-      <h2>Introduction to Cryptocurrency Markets</h2>
-      <p>
-        Discover how Bitcoin, Ethereum, and other cryptocurrencies are traded, stored, and used across digital finance platforms.
-      </p>
-      <a href="articles/what-is-crypto.html">Read full article →</a>
+  <!-- ✅ フッターを main の外に出して中央寄せを効かせる -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="articles.html">Articles</a>
+      <a href="contact.html">Contact</a>
     </div>
+    <p>
+      <a href="index.html" style="text-decoration: none; color: inherit;">
+        &copy; 2025 World Market Now
+      </a>
+    </p>
+  </footer>
 
-    <div class="article-preview">
-      <h2>What is an ETF and Why Is It Popular?</h2>
-      <p>
-        Understand the mechanics of Exchange-Traded Funds, how they differ from mutual funds, and why they are favored by investors.
-      </p>
-      <a href="articles/what-is-etf.html">Read full article →</a>
-    </div>
-
-    <div class="article-preview">
-      <h2>How to Understand Market Volatility</h2>
-      <p>
-        Learn what causes market volatility, how to interpret it, and strategies for navigating turbulent financial markets.
-      </p>
-      <a href="articles/market-volatility-guide.html">Read full article →</a>
-    </div>
-
-    <div class="article-preview">
-      <h2>How Interest Rates Impact Markets</h2>
-      <p>
-        Explore how interest rate changes affect stocks, bonds, forex, and crypto—and what it means for your investment strategy.
-      </p>
-      <a href="articles/how-interest-rates-impact-markets.html">Read full article →</a>
-    </div>
-
-    <div class="article-preview">
-      <h2>Understanding Inflation & CPI</h2>
-      <p>
-        Discover what inflation is, how CPI is calculated, and why it's a critical signal for markets, policy makers, and investors.
-      </p>
-      <a href="articles/understanding-inflation-and-cpi.html">Read full article →</a>
-    </div>
-
-    <div class="article-preview">
-      <h2>The Role of Central Banks</h2>
-      <p>
-        Learn how institutions like the Fed, ECB, and BOJ manage monetary policy and steer the global economy.
-      </p>
-      <a href="articles/the-role-of-central-banks.html">Read full article →</a>
-    </div>
-
-    <div class="article-preview">
-      <h2>Long-Term Investing vs Day Trading</h2>
-      <p>
-        Compare two popular strategies: steady compounding over time or high-risk intraday trades—and find out which suits you.
-      </p>
-      <a href="articles/long-term-vs-day-trading.html">Read full article →</a>
-    </div>
-
-    <div class="article-preview">
-      <h2>How to Read a Candlestick Chart</h2>
-      <p>
-        A step-by-step guide to understanding candlesticks, patterns, and how traders use them to analyze price action.
-      </p>
-      <a href="articles/how-to-read-candlestick-chart.html">Read full article →</a>
-    </div>
-  </div>
 </body>
 </html>
