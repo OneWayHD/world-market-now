@@ -79,15 +79,14 @@ async function loadThreadsByCategory(category) {
 
       count++;
 
-      // ✅ 5件ごとに広告挿入（スレッドと同じ見た目）
+      // ✅ 5件ごとに通常ディスプレイ広告（90px）を挿入（自然なpaddingつき）
       if (count % 5 === 0) {
         html += `
-          <li class="thread-item">
+          <li class="thread-item" style="padding-top: 12px; padding-bottom: 12px;">
             <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-format="autorelaxed"
+                 style="display:inline-block; width:100%; height:90px;"
                  data-ad-client="ca-pub-3836772651637182"
-                 data-ad-slot="3700747259"></ins>
+                 data-ad-slot="6566583745"></ins>
             <script>
               (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
