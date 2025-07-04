@@ -67,6 +67,8 @@ async function loadThread() {
     categoryLabel.innerHTML = `<span class="category-label ${cssClass}">${category}</span>`;
     titleEl.innerText = escapeHTML(threadData.title || "(no title)");
 
+    (adsbygoogle = window.adsbygoogle || []).push({});
+
     const postsRef = collection(db, "threads", threadId, "posts");
     const q = query(postsRef, orderBy("createdAt", "asc"));
     const postSnap = await getDocs(q);
