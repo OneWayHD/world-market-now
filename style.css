@@ -374,3 +374,26 @@ ins.adsbygoogle {
   height: auto;
   margin: 0 auto;
 }
+
+.chart-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(243, 244, 246, 0.85); /* 薄グレー */
+  color: #111;
+  font-size: 12.5px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  z-index: 2;
+  border-radius: 12px;
+  box-sizing: border-box;
+  pointer-events: none; /* クリック透過 */
+  line-height: 1.4;
+  white-space: pre-wrap;
+}

@@ -25,6 +25,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return base + change;
   }
 
+  function getOverlayMessage(category) {
+    if (category === "indices") {
+      return "※ This chart uses sample data.\nIndices will be connected to real-time data soon.\nFeel free to chat on the Board(BBS) while you wait!";
+    }
+    if (category === "forex" || category === "crypto") {
+      return "※ This chart uses sample data.\nForex & Crypto will be added when user activity increases.\nJoin the conversation on the Board(BBS) while we prepare!";
+    }
+    return "";
+  }  
+
   Chart.register({
     id: 'customFillPlugin',
     beforeDatasetsDraw(chart) {
@@ -123,6 +133,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     charts.push({ chart, info, indexData });
+
+    // ✅ グレーオーバーレイ追加（サンプルデータ警告）
+    if (["indices", "forex", "crypto"].includes(currentCategory)) {
+      const overlay = document.createElement("div");
+      overlay.className = "chart-overlay";
+      overlay.textContent = getOverlayMessage(currentCategory);
+      card.appendChild(overlay);
+    }
   }
 
   function updateCharts() {
