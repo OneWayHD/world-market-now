@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thread | World Market Now</title>
-  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="theme-color" content="#0f172a" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182" crossorigin="anonymous"></script>
 
   <style>
@@ -45,28 +45,14 @@
       margin-bottom: 6px;
     }
 
-    .category-indices {
-      background-color: #0ea5e9;
-    }
-
-    .category-forex {
-      background-color: #6366f1;
-    }
-
-    .category-crypto {
-      background-color: #f59e0b;
-    }
+    .category-indices { background-color: #0ea5e9; }
+    .category-forex { background-color: #6366f1; }
+    .category-crypto { background-color: #f59e0b; }
 
     #thread-title {
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 8px;
-    }
-
-    #post-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
     }
 
     .post {
@@ -128,32 +114,14 @@
       text-decoration: underline;
     }
 
-    .report-button {
-      right: 8px;
-      color: #ef4444;
-    }
+    .report-button { right: 8px; color: #ef4444; }
+    .report-button:hover { color: #dc2626; }
 
-    .report-button:hover {
-      color: #dc2626;
-    }
+    .delete-button { right: 60px; color: #6366f1; }
+    .delete-button:hover { color: #4f46e5; }
 
-    .delete-button {
-      right: 60px;
-      color: #6366f1;
-    }
-
-    .delete-button:hover {
-      color: #4f46e5;
-    }
-
-    .reply-button {
-      right: 120px;
-      color: #10b981;
-    }
-
-    .reply-button:hover {
-      color: #059669;
-    }
+    .reply-button { right: 120px; color: #10b981; }
+    .reply-button:hover { color: #059669; }
 
     #reply-form {
       background-color: #ffffff;
@@ -195,6 +163,23 @@
       font-size: 12px;
       color: #666;
     }
+
+    .ads-top,
+    .ads-bottom {
+      text-align: center;
+      line-height: 0;
+    }
+
+    .ads-bottom {
+      margin-top: 30px;
+      margin-bottom: 0;
+    }
+
+    ul#post-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -209,10 +194,10 @@
     <div id="thread-category-label"></div>
     <div id="thread-title"></div>
 
-    <!-- ✅ 上部バナー広告（表示確認済） -->
-    <div style="margin: 10px auto 0; text-align: center; line-height: 0; max-width: 728px;">
+    <!-- ✅ 上部広告（6566583745） -->
+    <div class="ads-top" style="margin: 10px auto 12px; max-width: 728px;">
       <ins class="adsbygoogle"
-           style="display:inline-block; width:100%; height:90px;"
+           style="display:inline-block;width:100%;height:90px;"
            data-ad-client="ca-pub-3836772651637182"
            data-ad-slot="6566583745"></ins>
       <script>
@@ -220,8 +205,10 @@
       </script>
     </div>
 
+    <!-- 投稿一覧 -->
     <ul id="post-list"></ul>
 
+    <!-- 返信フォーム -->
     <form id="reply-form">
       <input type="text" name="name" placeholder="Your Name (optional)" />
       <textarea name="content" rows="4" placeholder="Write your reply here..."></textarea>
@@ -229,8 +216,8 @@
       <button type="submit">Post Reply</button>
     </form>
 
-    <!-- ✅ スレッド下部広告（autorelaxed） -->
-    <div style="margin: 30px auto 0; text-align: center;">
+    <!-- ✅ 下部広告（1800308381） -->
+    <div class="ads-bottom">
       <ins class="adsbygoogle"
            style="display:block"
            data-ad-format="autorelaxed"
@@ -249,6 +236,6 @@
   </footer>
 
   <script type="module" src="firebase-init.js"></script>
-  <script type="module" src="bbs-thread.js?v=10007"></script>
+  <script type="module" src="bbs-thread.js?v=10009"></script>
 </body>
 </html>

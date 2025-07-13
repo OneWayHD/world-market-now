@@ -119,7 +119,7 @@ async function loadThread() {
         </li>
       `;
 
-      // ✅ 5件ごとに広告（新スロット: 8581339151）
+      // ✅ 5件ごとに広告挿入（slot: 8581339151）
       if (index % 5 === 0) {
         html += `
           <li class="post" style="text-align: center; padding: 16px;">
@@ -127,9 +127,6 @@ async function loadThread() {
                  style="display:inline-block;width:100%;max-width:728px;height:90px"
                  data-ad-client="ca-pub-3836772651637182"
                  data-ad-slot="8581339151"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
           </li>
         `;
       }
@@ -139,6 +136,16 @@ async function loadThread() {
 
     postList.innerHTML = html;
 
+    // ✅ 追加：動的広告を再描画
+    setTimeout(() => {
+      try {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.warn("AdSense push failed (thread page)", e);
+      }
+    }, 300);
+
+    // 通報・削除・返信・いいね処理（そのまま）
     document.querySelectorAll(".report-button").forEach(button => {
       button.addEventListener("click", async () => {
         const postId = button.dataset.id;

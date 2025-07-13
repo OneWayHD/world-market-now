@@ -397,14 +397,3 @@ ins.adsbygoogle {
   line-height: 1.4;
   white-space: pre-wrap;
 }
-/* ✅ スレッド5件ごとの広告を高さ90pxで固定 */
-.thread-item ins.adsbygoogle {
-  display: block;
-  width: 100%;
-  max-width: 728px;
-  height: 90px !important;
-  max-height: 90px !important;
-  overflow: hidden;
-  margin: 0 auto;
-  line-height: 0;
-}
