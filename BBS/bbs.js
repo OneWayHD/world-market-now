@@ -79,14 +79,16 @@ async function loadThreadsByCategory(category) {
 
       count++;
 
-      // ✅ 5件ごとに通常ディスプレイ広告（slot: 5605173090）を挿入
+      // ✅ 5件ごとにレスポンシブ広告を挿入（slot: 5605173090）
       if (count % 5 === 0) {
         html += `
           <li class="thread-item" style="padding-top: 12px; padding-bottom: 12px;">
             <ins class="adsbygoogle"
-                 style="display:inline-block; width:100%; height:90px;"
+                 style="display:block"
                  data-ad-client="ca-pub-3836772651637182"
-                 data-ad-slot="5605173090"></ins>
+                 data-ad-slot="5605173090"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
           </li>
         `;
       }
@@ -94,7 +96,7 @@ async function loadThreadsByCategory(category) {
 
     threadList.innerHTML = html;
 
-    // ✅ 動的挿入後の広告push（重要！）
+    // ✅ 動的挿入広告の再 push（重要！）
     setTimeout(() => {
       try {
         (adsbygoogle = window.adsbygoogle || []).push({});
