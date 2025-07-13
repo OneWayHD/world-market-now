@@ -216,17 +216,24 @@
       <button type="submit">Post Reply</button>
     </form>
 
-    <!-- ✅ 下部広告（1800308381） -->
-    <div class="ads-bottom">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-format="autorelaxed"
-           data-ad-client="ca-pub-3836772651637182"
-           data-ad-slot="1800308381"></ins>
-      <script>
+    <!-- ✅ 下部広告（1800308381）＋ 余白防止 -->
+<div id="bottom-ad-wrapper" style="margin-top: 30px; margin-bottom: 0; text-align: center; line-height: 0; overflow: hidden;">
+  <ins class="adsbygoogle"
+       style="display:block; width:100%; height:auto; max-height:400px; min-height:0;"
+       data-ad-format="autorelaxed"
+       data-ad-client="ca-pub-3836772651637182"
+       data-ad-slot="1800308381"></ins>
+  <script>
+    setTimeout(() => {
+      try {
         (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
+      } catch (e) {
+        console.warn("Ad render failed:", e);
+      }
+    }, 300);
+  </script>
+</div>
+
   </main>
 
   <footer>
