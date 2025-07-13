@@ -131,16 +131,26 @@
     <!-- チャートがここに動的に挿入される -->
   </main>
 
-  <div class="chart-card" style="max-height: 400px; overflow: hidden;">
-    <ins class="adsbygoogle"
-         style="display:block; height: 100%;"
-         data-ad-format="autorelaxed"
-         data-ad-client="ca-pub-3836772651637182"
-         data-ad-slot="3700747259"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>  
+  <!-- ✅ Multiplex広告：切れず、空白も出ないよう制御 -->
+<div id="multiplex-wrapper" style="margin: 20px auto 0; max-width: 800px; text-align: center; line-height: 0; overflow: hidden;">
+  <ins id="multiplex-ad"
+       class="adsbygoogle"
+       style="display:block; width:100%; height:auto;"
+       data-ad-format="autorelaxed"
+       data-full-width-responsive="true"
+       data-ad-client="ca-pub-3836772651637182"
+       data-ad-slot="3700747259"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    setTimeout(() => {
+      const ad = document.getElementById("multiplex-ad");
+      const wrapper = document.getElementById("multiplex-wrapper");
+      if (ad.offsetHeight < 30) {
+        wrapper.style.display = "none";
+      }
+    }, 800);
+  </script>
+</div> 
 
   <div id="chart-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:9999;">
     <div style="background:#fff; padding:20px; border-radius:12px; max-width:90vw; max-height:90vh; position:relative;">
