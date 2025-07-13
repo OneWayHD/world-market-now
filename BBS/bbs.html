@@ -132,9 +132,19 @@
       width: 100%;
       height: 90px;
     }
+
+    /* ✅ スレ5件ごとの広告サイズを90pxに強制固定 */
+    .thread-item ins.adsbygoogle {
+      display: block;
+      height: 90px !important;
+      max-height: 90px !important;
+      overflow: hidden;
+    }
   </style>
+
   <!-- ✅ AdSense script -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182"
+          crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -173,8 +183,8 @@
       <button class="category-tab" data-category="Crypto">Crypto</button>
     </div>
 
-    <!-- 🔳 カテゴリタブ下のバナー広告 -->
-    <div class="ad-slot">
+    <!-- 🔳 カテゴリタブ下のバナー広告（slot: 1955101499） -->
+    <div class="ad-slot" style="line-height: 0;">
       <ins class="adsbygoogle"
            style="display:inline-block; width:100%; height:90px;"
            data-ad-client="ca-pub-3836772651637182"
@@ -189,8 +199,8 @@
       <!-- JSで生成 -->
     </ul>
 
-    <!-- ✅ スレッド一覧下部のオートリラックス広告 -->
-    <div style="margin-top: 20px; text-align: center;">
+    <!-- ✅ スレッド一覧下部のオートリラックス広告（slot: 7156576840） -->
+    <div style="margin-top: 20px; text-align: center; line-height: 0;">
       <ins class="adsbygoogle"
            style="display:block"
            data-ad-format="autorelaxed"
@@ -219,7 +229,7 @@
 
   <!-- Firebase & スレ取得 -->
   <script type="module" src="firebase-init.js"></script>
-  <script type="module" src="bbs.js"></script>
+  <script type="module" src="bbs.js?v=10002"></script>
 
   <!-- トグル制御 -->
   <script>

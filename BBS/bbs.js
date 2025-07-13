@@ -79,16 +79,14 @@ async function loadThreadsByCategory(category) {
 
       count++;
 
-      // ✅ 5件ごとにレスポンシブ広告を挿入（slot: 5605173090）
+      // ✅ 5件ごとに広告挿入（slot: 5605173090）
       if (count % 5 === 0) {
         html += `
-          <li class="thread-item" style="padding-top: 12px; padding-bottom: 12px;">
+          <li class="thread-item" style="padding: 0; overflow: hidden;">
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:block; width:100%; height:90px; max-height:90px; overflow:hidden;"
                  data-ad-client="ca-pub-3836772651637182"
-                 data-ad-slot="5605173090"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+                 data-ad-slot="5605173090"></ins>
           </li>
         `;
       }
@@ -96,21 +94,21 @@ async function loadThreadsByCategory(category) {
 
     threadList.innerHTML = html;
 
-    // ✅ 動的挿入広告の再 push（重要！）
+    // ✅ 動的に挿入された広告を明示的に再読み込み
     setTimeout(() => {
       try {
         (adsbygoogle = window.adsbygoogle || []).push({});
       } catch (e) {
         console.warn("AdSense push failed:", e);
       }
-    }, 500);
+    }, 300);
   } catch (err) {
     console.error("🔥 Failed to load threads:", err);
     threadList.innerHTML = "<p style='color:red;'>Error loading threads.</p>";
   }
 }
 
-// ✅ タブ切替イベント
+// ✅ カテゴリタブのクリックで読み込み切替
 categoryTabs.forEach(tab => {
   tab.addEventListener("click", () => {
     categoryTabs.forEach(t => t.classList.remove("active"));
@@ -120,5 +118,5 @@ categoryTabs.forEach(tab => {
   });
 });
 
-// ✅ 初期読み込み（Hot）
+// ✅ 初期表示
 loadThreadsByCategory(selectedCategory);
