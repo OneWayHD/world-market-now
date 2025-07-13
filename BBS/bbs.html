@@ -199,21 +199,24 @@
       <!-- JSで生成 -->
     </ul>
 
-    <!-- ✅ スレッド一覧下部のオートリラックス広告（空白防止スタイル付き） -->
+    <!-- ✅ スレッド一覧下部のオートリラックス広告（空白＆切れ対策付き） -->
 <div id="bottom-ad-wrapper" style="margin-top: 20px; text-align: center; line-height: 0; margin-bottom: 0; overflow: hidden;">
-  <ins class="adsbygoogle"
-       style="display:block; width:100%; height:auto; max-height:300px;"
+  <ins id="bottom-ad"
+       class="adsbygoogle"
+       style="display:block; width:100%; height:auto;"
        data-ad-format="autorelaxed"
+       data-full-width-responsive="true"
        data-ad-client="ca-pub-3836772651637182"
        data-ad-slot="7156576840"></ins>
   <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
     setTimeout(() => {
-      try {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.warn("Ad load failed:", e);
+      const ad = document.getElementById("bottom-ad");
+      const wrapper = document.getElementById("bottom-ad-wrapper");
+      if (ad.offsetHeight < 30) {
+        wrapper.style.display = "none";
       }
-    }, 500);
+    }, 800);
   </script>
 </div>
 
