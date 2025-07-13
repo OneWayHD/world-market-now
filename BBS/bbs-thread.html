@@ -216,23 +216,32 @@
       <button type="submit">Post Reply</button>
     </form>
 
-    <!-- ✅ 下部広告（1800308381）＋ 余白防止 -->
-<div id="bottom-ad-wrapper" style="margin-top: 30px; margin-bottom: 0; text-align: center; line-height: 0; overflow: hidden;">
-  <ins class="adsbygoogle"
-       style="display:block; width:100%; height:auto; max-height:400px; min-height:0;"
+    <!-- ✅ 切れず、かつ空広告の余白も出さない下部広告 -->
+<div id="bottom-ad-wrapper" style="margin-top: 30px; text-align: center; line-height: 0; min-height: 0;">
+  <ins id="bottom-ad"
+       class="adsbygoogle"
+       style="display:block; width:100%; height:auto;"
        data-ad-format="autorelaxed"
+       data-full-width-responsive="true"
        data-ad-client="ca-pub-3836772651637182"
        data-ad-slot="1800308381"></ins>
   <script>
+    const ad = document.getElementById("bottom-ad");
+    const wrapper = document.getElementById("bottom-ad-wrapper");
+
+    // push広告リクエスト
+    (adsbygoogle = window.adsbygoogle || []).push({});
+
+    // 0.8秒後に広告要素の高さチェック
     setTimeout(() => {
-      try {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.warn("Ad render failed:", e);
+      const h = ad.offsetHeight;
+      if (h < 30) {
+        wrapper.style.display = "none"; // ✅ 高さが無ければ非表示に
       }
-    }, 300);
+    }, 800);
   </script>
 </div>
+
 
   </main>
 
