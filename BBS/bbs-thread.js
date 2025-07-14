@@ -119,14 +119,21 @@ async function loadThread() {
         </li>
       `;
 
-      // ✅ 5件ごとに広告挿入（slot: 8581339151）
+      // ✅ 5件ごとにインフィード広告挿入（slot: 7970432232）
       if (index % 5 === 0) {
         html += `
-          <li class="post" style="text-align: center; padding: 16px;">
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:100%;max-width:728px;height:90px"
-                 data-ad-client="ca-pub-3836772651637182"
-                 data-ad-slot="8581339151"></ins>
+          <li class="post ad-wrapper" style="margin: 12px 0; padding: 0;">
+            <div class="infeed-ad" style="padding: 12px 0; line-height: 0;">
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-format="fluid"
+                   data-ad-layout-key="-gw-3+1f-3d+2z"
+                   data-ad-client="ca-pub-3836772651637182"
+                   data-ad-slot="7970432232"></ins>
+            </div>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </li>
         `;
       }
@@ -136,7 +143,7 @@ async function loadThread() {
 
     postList.innerHTML = html;
 
-    // ✅ 追加：動的広告を再描画
+    // ✅ 広告再描画（念のため）
     setTimeout(() => {
       try {
         (adsbygoogle = window.adsbygoogle || []).push({});
