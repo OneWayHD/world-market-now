@@ -216,33 +216,26 @@
       <button type="submit">Post Reply</button>
     </form>
 
-    <!-- ✅ 切れず、かつ空広告の余白も出さない下部広告 -->
-<div id="bottom-ad-wrapper" style="margin-top: 30px; text-align: center; line-height: 0; min-height: 0;">
-  <ins id="bottom-ad"
-       class="adsbygoogle"
-       style="display:block; width:100%; height:auto;"
-       data-ad-format="autorelaxed"
-       data-full-width-responsive="true"
-       data-ad-client="ca-pub-3836772651637182"
-       data-ad-slot="1800308381"></ins>
-  <script>
-    const ad = document.getElementById("bottom-ad");
-    const wrapper = document.getElementById("bottom-ad-wrapper");
-
-    // push広告リクエスト
-    (adsbygoogle = window.adsbygoogle || []).push({});
-
-    // 0.8秒後に広告要素の高さチェック
-    setTimeout(() => {
-      const h = ad.offsetHeight;
-      if (h < 30) {
-        wrapper.style.display = "none"; // ✅ 高さが無ければ非表示に
-      }
-    }, 800);
-  </script>
-</div>
-
-
+    <!-- ✅ インフィード広告（下部） -->
+    <div id="bottom-ad-wrapper" style="margin-top: 30px; text-align: center; line-height: 0; min-height: 0;">
+      <ins id="bottom-ad"
+           class="adsbygoogle"
+           style="display:block; width:100%; height:auto;"
+           data-ad-format="fluid"
+           data-ad-layout-key="-gw-3+1f-3d+2z"
+           data-ad-client="ca-pub-3836772651637182"
+           data-ad-slot="7970432232"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        setTimeout(() => {
+          const ad = document.getElementById("bottom-ad");
+          const wrapper = document.getElementById("bottom-ad-wrapper");
+          if (ad.offsetHeight < 30) {
+            wrapper.style.display = "none";
+          }
+        }, 800);
+      </script>
+    </div>
   </main>
 
   <footer>
@@ -252,6 +245,6 @@
   </footer>
 
   <script type="module" src="firebase-init.js"></script>
-  <script type="module" src="bbs-thread.js?v=10009"></script>
+  <script type="module" src="bbs-thread.js?v=10011"></script>
 </body>
 </html>

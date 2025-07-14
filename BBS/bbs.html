@@ -199,26 +199,26 @@
       <!-- JSで生成 -->
     </ul>
 
-    <!-- ✅ スレッド一覧下部のオートリラックス広告（空白＆切れ対策付き） -->
-<div id="bottom-ad-wrapper" style="margin-top: 20px; text-align: center; line-height: 0; margin-bottom: 0; overflow: hidden;">
-  <ins id="bottom-ad"
-       class="adsbygoogle"
-       style="display:block; width:100%; height:auto;"
-       data-ad-format="autorelaxed"
-       data-full-width-responsive="true"
-       data-ad-client="ca-pub-3836772651637182"
-       data-ad-slot="7156576840"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    setTimeout(() => {
-      const ad = document.getElementById("bottom-ad");
-      const wrapper = document.getElementById("bottom-ad-wrapper");
-      if (ad.offsetHeight < 30) {
-        wrapper.style.display = "none";
-      }
-    }, 800);
-  </script>
-</div>
+    <!-- ✅ 最下部広告：Multiplex → インフィードに差し替え -->
+    <div id="bottom-ad-wrapper" style="margin-top: 30px; text-align: center; line-height: 0; min-height: 0;">
+      <ins id="bottom-ad"
+           class="adsbygoogle"
+           style="display:block; width:100%; height:auto;"
+           data-ad-format="fluid"
+           data-ad-layout-key="-gw-3+1f-3d+2z"
+           data-ad-client="ca-pub-3836772651637182"
+           data-ad-slot="7970432232"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        setTimeout(() => {
+          const ad = document.getElementById("bottom-ad");
+          const wrapper = document.getElementById("bottom-ad-wrapper");
+          if (ad.offsetHeight < 30) {
+            wrapper.style.display = "none";
+          }
+        }, 800);
+      </script>
+    </div>
 
   </main>
 
@@ -239,7 +239,7 @@
 
   <!-- Firebase & スレ取得 -->
   <script type="module" src="firebase-init.js"></script>
-  <script type="module" src="bbs.js?v=10002"></script>
+  <script type="module" src="bbs.js?v=10003"></script>
 
   <!-- トグル制御 -->
   <script>

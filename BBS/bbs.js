@@ -79,14 +79,21 @@ async function loadThreadsByCategory(category) {
 
       count++;
 
-      // ✅ 5件ごとに広告挿入（slot: 5605173090）
+      // ✅ 5件ごとにインフィード広告（fluid形式）を挿入
       if (count % 5 === 0) {
         html += `
-          <li class="thread-item" style="padding: 0; overflow: hidden;">
-            <ins class="adsbygoogle"
-                 style="display:block; width:100%; height:90px; max-height:90px; overflow:hidden;"
-                 data-ad-client="ca-pub-3836772651637182"
-                 data-ad-slot="5605173090"></ins>
+          <li class="thread-item" style="margin: 24px 0; padding: 0;">
+            <div class="infeed-ad" style="padding: 12px 0; line-height: 0;">
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-format="fluid"
+                   data-ad-layout-key="-gw-3+1f-3d+2z"
+                   data-ad-client="ca-pub-3836772651637182"
+                   data-ad-slot="7970432232"></ins>
+            </div>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </li>
         `;
       }
@@ -94,12 +101,12 @@ async function loadThreadsByCategory(category) {
 
     threadList.innerHTML = html;
 
-    // ✅ 動的に挿入された広告を明示的に再読み込み
+    // ✅ 動的に挿入された広告を再描画
     setTimeout(() => {
       try {
         (adsbygoogle = window.adsbygoogle || []).push({});
       } catch (e) {
-        console.warn("AdSense push failed:", e);
+        console.warn("AdSense push failed (bbs)", e);
       }
     }, 300);
   } catch (err) {
