@@ -119,7 +119,7 @@ async function loadThread() {
         </li>
       `;
 
-      // ✅ 5件ごとにインフィード広告挿入（遅延読み込み対応済）
+      // ✅ 5件ごとにインフィード広告挿入（slot: 7970432232）
       if (index % 5 === 0) {
         html += `
           <li class="post ad-wrapper" style="margin: 12px 0; padding: 0;">
@@ -140,9 +140,12 @@ async function loadThread() {
 
     postList.innerHTML = html;
 
-    // ⛔ adsbygoogle.push はここでは不要（IntersectionObserverに任せる）
+    // ✅ 挿入後に lazyLoadAds() を呼び出して in-feed広告も監視対象に加える
+    if (typeof window.lazyLoadAds === "function") {
+      window.lazyLoadAds();
+    }
 
-    // 通報・削除・返信・いいね処理（そのまま）
+    // 通報・削除・返信・いいね処理
     document.querySelectorAll(".report-button").forEach(button => {
       button.addEventListener("click", async () => {
         const postId = button.dataset.id;

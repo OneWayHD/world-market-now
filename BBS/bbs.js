@@ -79,7 +79,7 @@ async function loadThreadsByCategory(category) {
 
       count++;
 
-      // ✅ 5件ごとにインフィード広告挿入（遅延読込に対応）
+      // ✅ 5件ごとにインフィード広告挿入（slot: 7970432232）
       if (count % 5 === 0) {
         html += `
           <li class="thread-item" style="margin: 12px 0; padding: 0;">
@@ -98,7 +98,10 @@ async function loadThreadsByCategory(category) {
 
     threadList.innerHTML = html;
 
-    // ⛔ adsbygoogle.push は不要（遅延読込に任せる）
+    // ✅ lazyLoadAds() を呼び出して広告を監視対象に登録
+    if (typeof window.lazyLoadAds === "function") {
+      window.lazyLoadAds();
+    }
 
   } catch (err) {
     console.error("🔥 Failed to load threads:", err);
