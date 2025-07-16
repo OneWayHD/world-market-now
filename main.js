@@ -1,4 +1,4 @@
-// ✅ main.js：チャート並び替え（スマホ対応）＋表示・モーダル処理フル実装
+// ✅ main.js：チャート並び替え（スマホ・PC対応）＋preventDefault対応フル実装
 
 document.addEventListener("DOMContentLoaded", () => {
   const chartContainer = document.getElementById("chart-container");
@@ -267,6 +267,19 @@ document.addEventListener("DOMContentLoaded", () => {
       b.classList.add("active");
     } else {
       b.classList.remove("active");
+    }
+  });
+
+  // ✅ preventDefaultで文字選択抑制
+  document.addEventListener("touchstart", function (e) {
+    if (e.target.classList.contains("chart-drag-handle")) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  document.addEventListener("mousedown", function (e) {
+    if (e.target.classList.contains("chart-drag-handle")) {
+      e.preventDefault();
     }
   });
 
