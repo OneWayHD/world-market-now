@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getOverlayMessage(category) {
     if (category === "indices") {
-      return "\u203b This chart uses sample data.\nIndices will be connected to real-time data soon.\nFeel free to chat on the Board(BBS) while you wait!";
+      return "※ This chart uses sample data.\nIndices will be connected to real-time data soon.\nFeel free to chat on the Board(BBS) while you wait!";
     }
     if (category === "forex" || category === "crypto") {
-      return "\u203b This chart uses sample data.\nForex & Crypto will be added when user activity increases.\nJoin the conversation on the Board(BBS) while we prepare!";
+      return "※ This chart uses sample data.\nForex & Crypto will be added when user activity increases.\nJoin the conversation on the Board(BBS) while we prepare!";
     }
     return "";
   }
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement("div");
     card.className = "chart-card";
 
-    // ☰ ドラッグハンドル
+    // ☰ ドラッグハンドルを canvas より先に追加
     const handle = document.createElement("div");
     handle.className = "chart-drag-handle";
     handle.innerHTML = "&#9776;";
