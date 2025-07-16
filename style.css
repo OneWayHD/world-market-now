@@ -397,3 +397,25 @@ ins.adsbygoogle {
   line-height: 1.4;
   white-space: pre-wrap;
 }
+
+#bottom-ad-wrapper:empty,
+#bottom-ad-wrapper > ins:empty {
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.chart-drag-handle {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 18px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  z-index: 10;
+  color: #9ca3af;
+}

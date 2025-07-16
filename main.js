@@ -1,3 +1,5 @@
+// ✅ main.js：チャート並び替え（スマホ対応）＋表示・モーダル処理フル実装
+
 document.addEventListener("DOMContentLoaded", () => {
   const chartContainer = document.getElementById("chart-container");
   const currencySelect = document.getElementById("currency");
@@ -27,13 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getOverlayMessage(category) {
     if (category === "indices") {
-      return "※ This chart uses sample data.\nIndices will be connected to real-time data soon.\nFeel free to chat on the Board(BBS) while you wait!";
+      return "\u203b This chart uses sample data.\nIndices will be connected to real-time data soon.\nFeel free to chat on the Board(BBS) while you wait!";
     }
     if (category === "forex" || category === "crypto") {
-      return "※ This chart uses sample data.\nForex & Crypto will be added when user activity increases.\nJoin the conversation on the Board(BBS) while we prepare!";
+      return "\u203b This chart uses sample data.\nForex & Crypto will be added when user activity increases.\nJoin the conversation on the Board(BBS) while we prepare!";
     }
     return "";
-  }  
+  }
 
   Chart.register({
     id: 'customFillPlugin',
@@ -66,6 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function createChartCard(indexData) {
     const card = document.createElement("div");
     card.className = "chart-card";
+
+    // ☰ ドラッグハンドル
+    const handle = document.createElement("div");
+    handle.className = "chart-drag-handle";
+    handle.innerHTML = "&#9776;";
+    card.appendChild(handle);
 
     const title = document.createElement("div");
     title.className = "chart-title";
@@ -134,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     charts.push({ chart, info, indexData });
 
-    // ✅ グレーオーバーレイ追加（サンプルデータ警告）
     if (["indices", "forex", "crypto"].includes(currentCategory)) {
       const overlay = document.createElement("div");
       overlay.className = "chart-overlay";
@@ -171,6 +178,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const dataList = dataMap[currentCategory] || [];
 
     dataList.forEach(createChartCard);
+
+    // ✅ 並び替え有効化（スマホ対応）
+    Sortable.create(chartContainer, {
+      handle: ".chart-drag-handle",
+      animation: 150,
+      ghostClass: "sortable-ghost"
+    });
   }
 
   function showChartInModal(indexData) {
@@ -248,7 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === modal) closeModal();
   });
 
-  // ✅ イベント登録
   categoryButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       if (btn.disabled) return;
@@ -264,7 +277,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCharts();
   });
 
-  // ✅ 初期 .active 設定
   categoryButtons.forEach(b => {
     if (b.dataset.category === currentCategory) {
       b.classList.add("active");
