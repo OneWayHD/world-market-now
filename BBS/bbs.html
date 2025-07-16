@@ -133,7 +133,6 @@
       height: 90px;
     }
 
-    /* ✅ スレ5件ごとの広告サイズを90pxに強制固定 */
     .thread-item ins.adsbygoogle {
       display: block;
       height: 90px !important;
@@ -142,7 +141,6 @@
     }
   </style>
 
-  <!-- ✅ AdSense script -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182"
           crossorigin="anonymous"></script>
 </head>
@@ -157,7 +155,6 @@
   </header>
 
   <main>
-    <!-- 📌 ガイドライン -->
     <div class="notice">
       <h3 onclick="toggleGuidelines()">📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span></h3>
       <div id="guidelines-content" style="display: none; margin-top: 8px;">
@@ -172,10 +169,8 @@
       </div>
     </div>
 
-    <!-- 🔘 スレッド作成ボタン -->
     <a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
 
-    <!-- 🔘 カテゴリタブ -->
     <div class="category-tabs">
       <button class="category-tab active" data-category="Hot">🔥 Hot</button>
       <button class="category-tab" data-category="Indices & Stocks">Indices & Stocks</button>
@@ -183,15 +178,12 @@
       <button class="category-tab" data-category="Crypto">Crypto</button>
     </div>
 
-    <!-- 🔳 カテゴリタブ下のバナー広告（slot: 1955101499） -->
+    <!-- ✅ カテゴリタブ下のバナー広告（slot: 1955101499） -->
     <div class="ad-slot" style="line-height: 0;">
       <ins class="adsbygoogle"
            style="display:inline-block; width:100%; height:90px;"
            data-ad-client="ca-pub-3836772651637182"
            data-ad-slot="1955101499"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
     </div>
 
     <!-- 🧵 スレッド一覧 -->
@@ -199,7 +191,7 @@
       <!-- JSで生成 -->
     </ul>
 
-    <!-- ✅ 最下部広告：Multiplex → インフィードに差し替え -->
+    <!-- ✅ 最下部 fluid 広告 -->
     <div id="bottom-ad-wrapper" style="margin-top: 12px; text-align: center; line-height: 0; min-height: 0;">
       <ins id="bottom-ad"
            class="adsbygoogle"
@@ -208,18 +200,7 @@
            data-ad-layout-key="-gw-3+1f-3d+2z"
            data-ad-client="ca-pub-3836772651637182"
            data-ad-slot="7970432232"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        setTimeout(() => {
-          const ad = document.getElementById("bottom-ad");
-          const wrapper = document.getElementById("bottom-ad-wrapper");
-          if (ad.offsetHeight < 30) {
-            wrapper.style.display = "none";
-          }
-        }, 800);
-      </script>
     </div>
-
   </main>
 
   <footer>
@@ -237,11 +218,9 @@
     </p>
   </footer>
 
-  <!-- Firebase & スレ取得 -->
   <script type="module" src="firebase-init.js"></script>
   <script type="module" src="bbs.js?v=10003"></script>
 
-  <!-- トグル制御 -->
   <script>
     function toggleGuidelines() {
       const box = document.getElementById('guidelines-content');
@@ -250,6 +229,40 @@
       box.style.display = isVisible ? 'none' : 'block';
       symbol.textContent = isVisible ? '▼' : '▲';
     }
+
+    // ✅ IntersectionObserver による広告遅延読み込み
+    function lazyLoadAds() {
+      const adSlots = document.querySelectorAll('ins.adsbygoogle[data-ad-slot]');
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            try {
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              obs.unobserve(entry.target);
+            } catch (e) {
+              console.warn("AdSense push failed (bbs)", e);
+            }
+          }
+        });
+      }, {
+        rootMargin: "100px 0px",
+        threshold: 0.01
+      });
+
+      adSlots.forEach(ad => observer.observe(ad));
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      lazyLoadAds();
+
+      setTimeout(() => {
+        const ad = document.getElementById("bottom-ad");
+        const wrapper = document.getElementById("bottom-ad-wrapper");
+        if (ad?.offsetHeight < 30) {
+          wrapper.style.display = "none";
+        }
+      }, 800);
+    });
   </script>
 </body>
 </html>

@@ -79,7 +79,7 @@ async function loadThreadsByCategory(category) {
 
       count++;
 
-      // ✅ 5件ごとにインフィード広告（fluid形式）を挿入
+      // ✅ 5件ごとにインフィード広告挿入（遅延読込に対応）
       if (count % 5 === 0) {
         html += `
           <li class="thread-item" style="margin: 12px 0; padding: 0;">
@@ -91,9 +91,6 @@ async function loadThreadsByCategory(category) {
                    data-ad-client="ca-pub-3836772651637182"
                    data-ad-slot="7970432232"></ins>
             </div>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
           </li>
         `;
       }
@@ -101,14 +98,8 @@ async function loadThreadsByCategory(category) {
 
     threadList.innerHTML = html;
 
-    // ✅ 動的に挿入された広告を再描画
-    setTimeout(() => {
-      try {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.warn("AdSense push failed (bbs)", e);
-      }
-    }, 300);
+    // ⛔ adsbygoogle.push は不要（遅延読込に任せる）
+
   } catch (err) {
     console.error("🔥 Failed to load threads:", err);
     threadList.innerHTML = "<p style='color:red;'>Error loading threads.</p>";
