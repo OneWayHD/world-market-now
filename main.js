@@ -80,9 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
     info.className = "chart-info";
     card.appendChild(info);
 
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (e) => {
+      if (e.target.classList.contains("chart-drag-handle")) return;
       showChartInModal(indexData);
-    });
+    });    
 
     chartContainer.appendChild(card);
 
