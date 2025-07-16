@@ -7,7 +7,6 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <meta name="theme-color" content="#0f172a" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182" crossorigin="anonymous"></script>
-
   <style>
     body {
       background-color: #f8fafc;
@@ -189,9 +188,6 @@
            style="display:inline-block;width:100%;height:90px;"
            data-ad-client="ca-pub-3836772651637182"
            data-ad-slot="6566583745"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
     </div>
 
     <!-- 投稿一覧 -->
@@ -235,24 +231,47 @@
   <script type="module" src="firebase-init.js"></script>
   <script type="module" src="bbs-thread.js?v=10011"></script>
 
-  <!-- ✅ 広告の空白防止処理（上下別々） -->
+  <!-- ✅ AdSense広告 遅延読み込み（IntersectionObserver） -->
   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    (adsbygoogle = window.adsbygoogle || []).push({});
+    function lazyLoadAds() {
+      const adSlots = document.querySelectorAll('ins.adsbygoogle[data-ad-slot]');
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            try {
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              obs.unobserve(entry.target);
+            } catch (e) {
+              console.warn("AdSense push failed:", e);
+            }
+          }
+        });
+      }, {
+        rootMargin: "100px 0px",
+        threshold: 0.01
+      });
 
-    setTimeout(() => {
-      const adTop = document.querySelector('#reply-top-ad-wrapper ins');
-      if (adTop?.offsetHeight < 30) {
-        document.getElementById('reply-top-ad-wrapper').style.display = 'none';
-      }
-    }, 800);
+      adSlots.forEach(ad => observer.observe(ad));
+    }
 
-    setTimeout(() => {
-      const adBottom = document.querySelector('#reply-bottom-ad-wrapper ins');
-      if (adBottom?.offsetHeight < 30) {
-        document.getElementById('reply-bottom-ad-wrapper').style.display = 'none';
-      }
-    }, 800);
+    window.addEventListener('DOMContentLoaded', () => {
+      lazyLoadAds();
+
+      // 空白広告の非表示処理
+      setTimeout(() => {
+        const adTop = document.querySelector('#reply-top-ad-wrapper ins');
+        if (adTop?.offsetHeight < 30) {
+          document.getElementById('reply-top-ad-wrapper').style.display = 'none';
+        }
+      }, 800);
+
+      setTimeout(() => {
+        const adBottom = document.querySelector('#reply-bottom-ad-wrapper ins');
+        if (adBottom?.offsetHeight < 30) {
+          document.getElementById('reply-bottom-ad-wrapper').style.display = 'none';
+        }
+      }, 800);
+    });
   </script>
 </body>
 </html>

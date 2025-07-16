@@ -119,7 +119,7 @@ async function loadThread() {
         </li>
       `;
 
-      // ✅ 5件ごとにインフィード広告挿入（slot: 7970432232）
+      // ✅ 5件ごとにインフィード広告挿入（遅延読み込み対応済）
       if (index % 5 === 0) {
         html += `
           <li class="post ad-wrapper" style="margin: 12px 0; padding: 0;">
@@ -131,9 +131,6 @@ async function loadThread() {
                    data-ad-client="ca-pub-3836772651637182"
                    data-ad-slot="7970432232"></ins>
             </div>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
           </li>
         `;
       }
@@ -143,14 +140,7 @@ async function loadThread() {
 
     postList.innerHTML = html;
 
-    // ✅ 広告再描画（念のため）
-    setTimeout(() => {
-      try {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.warn("AdSense push failed (thread page)", e);
-      }
-    }, 300);
+    // ⛔ adsbygoogle.push はここでは不要（IntersectionObserverに任せる）
 
     // 通報・削除・返信・いいね処理（そのまま）
     document.querySelectorAll(".report-button").forEach(button => {
