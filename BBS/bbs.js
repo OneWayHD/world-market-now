@@ -82,7 +82,7 @@ async function loadThreadsByCategory(category) {
       // ✅ 5件ごとにインフィード広告（fluid形式）を挿入
       if (count % 5 === 0) {
         html += `
-          <li class="thread-item" style="margin: 24px 0; padding: 0;">
+          <li class="thread-item" style="margin: 12px 0; padding: 0;">
             <div class="infeed-ad" style="padding: 12px 0; line-height: 0;">
               <ins class="adsbygoogle"
                    style="display:block"
