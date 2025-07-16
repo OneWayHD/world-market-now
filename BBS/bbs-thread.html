@@ -208,6 +208,28 @@
     <!-- 投稿一覧 -->
     <ul id="post-list"></ul>
 
+    <!-- ✅ インフィード広告（返信フォーム上） -->
+    <div id="bottom-ad-wrapper" style="margin-top: 30px; text-align: center; line-height: 0; min-height: 0;">
+      <ins id="bottom-ad"
+           class="adsbygoogle"
+           style="display:block; width:100%; height:auto;"
+           data-ad-format="fluid"
+           data-ad-layout-key="-gw-3+1f-3d+2z"
+           data-ad-client="ca-pub-3836772651637182"
+           data-ad-slot="7970432232"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        setTimeout(() => {
+          const ad = document.getElementById("bottom-ad");
+          const wrapper = document.getElementById("bottom-ad-wrapper");
+          if (ad.offsetHeight < 30) {
+            wrapper.style.display = "none";
+          }
+        }, 800);
+      </script>
+    </div>
+  </main>
+
     <!-- 返信フォーム -->
     <form id="reply-form">
       <input type="text" name="name" placeholder="Your Name (optional)" />
