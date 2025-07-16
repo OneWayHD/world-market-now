@@ -28,12 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getOverlayMessage(category) {
-    if (category === "indices") {
-      return "※ This chart uses sample data.\nIndices will be connected to real-time data soon.\nFeel free to chat on the Board(BBS) while you wait!";
-    }
-    if (category === "forex" || category === "crypto") {
-      return "※ This chart uses sample data.\nForex & Crypto will be added when user activity increases.\nJoin the conversation on the Board(BBS) while we prepare!";
-    }
     return "";
   }
 
@@ -69,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement("div");
     card.className = "chart-card";
 
-    // ☰ ドラッグハンドルを canvas より先に追加
     const handle = document.createElement("div");
     handle.className = "chart-drag-handle";
     handle.innerHTML = "&#9776;";
@@ -141,13 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     charts.push({ chart, info, indexData });
-
-    if (["indices", "forex", "crypto"].includes(currentCategory)) {
-      const overlay = document.createElement("div");
-      overlay.className = "chart-overlay";
-      overlay.textContent = getOverlayMessage(currentCategory);
-      card.appendChild(overlay);
-    }
   }
 
   function updateCharts() {
@@ -179,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     dataList.forEach(createChartCard);
 
-    // ✅ 並び替え有効化（スマホ対応）
     Sortable.create(chartContainer, {
       handle: ".chart-drag-handle",
       animation: 150,
