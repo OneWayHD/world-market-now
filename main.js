@@ -1,4 +1,4 @@
-// ✅ main.js：チャート並び替え（スマホ・PC対応）＋並び順保存対応済（localStorage）
+// ✅ main.js：チャート並び替え（スマホ・PC対応）＋並び順保存＋国旗長押し対策済み
 
 document.addEventListener("DOMContentLoaded", () => {
   const chartContainer = document.getElementById("chart-container");
@@ -70,7 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const title = document.createElement("div");
     title.className = "chart-title";
-    title.innerHTML = `<img class="chart-flag" src="${indexData.flag}" /> ${indexData.name}`;
+
+    const flag = document.createElement("div");
+    flag.className = "chart-flag-bg";
+    flag.style.backgroundImage = `url(${indexData.flag})`;
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = indexData.name;
+
+    title.appendChild(flag);
+    title.appendChild(nameSpan);
     card.appendChild(title);
 
     const canvas = document.createElement("canvas");
@@ -177,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
       animation: 150,
       ghostClass: "sortable-ghost",
       onEnd: () => {
-        const cards = chartContainer.querySelectorAll(".chart-card .chart-title");
+        const cards = chartContainer.querySelectorAll(".chart-card .chart-title span");
         const newOrder = Array.from(cards).map(el => el.textContent.trim());
         localStorage.setItem(`wmn_order_${currentCategory}`, JSON.stringify(newOrder));
       }
@@ -282,7 +291,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ✅ preventDefaultで文字選択抑制
   document.addEventListener("touchstart", function (e) {
     if (e.target.classList.contains("chart-drag-handle")) {
       e.preventDefault();
