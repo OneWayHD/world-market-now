@@ -1,4 +1,4 @@
-// ✅ main.js：チャート並び替え（スマホ・PC対応）＋preventDefault対応フル実装
+// ✅ main.js：チャート並び替え（スマホ・PC対応）＋並び順保存対応済（localStorage）
 
 document.addEventListener("DOMContentLoaded", () => {
   const chartContainer = document.getElementById("chart-container");
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", (e) => {
       if (e.target.classList.contains("chart-drag-handle")) return;
       showChartInModal(indexData);
-    });    
+    });
 
     chartContainer.appendChild(card);
 
@@ -162,14 +162,25 @@ document.addEventListener("DOMContentLoaded", () => {
     charts = [];
 
     const dataMap = { indices, forex, crypto };
-    const dataList = dataMap[currentCategory] || [];
+    let dataList = dataMap[currentCategory] || [];
+
+    const savedOrder = localStorage.getItem(`wmn_order_${currentCategory}`);
+    if (savedOrder) {
+      const order = JSON.parse(savedOrder);
+      dataList = order.map(name => dataList.find(d => d.name === name)).filter(Boolean);
+    }
 
     dataList.forEach(createChartCard);
 
     Sortable.create(chartContainer, {
       handle: ".chart-drag-handle",
       animation: 150,
-      ghostClass: "sortable-ghost"
+      ghostClass: "sortable-ghost",
+      onEnd: () => {
+        const cards = chartContainer.querySelectorAll(".chart-card .chart-title");
+        const newOrder = Array.from(cards).map(el => el.textContent.trim());
+        localStorage.setItem(`wmn_order_${currentCategory}`, JSON.stringify(newOrder));
+      }
     });
   }
 
