@@ -69,26 +69,8 @@
       padding: 6px;
       font-size: 14px;
     }
-    #overlay-message {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(240, 240, 240, 0.85);
-      z-index: 99;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: bold;
-      color: #333;
-      padding: 20px;
-      box-sizing: border-box;
-      pointer-events: none;
-    }
   </style>
+
 </head>
 <body>
   <header>
@@ -122,6 +104,7 @@
     <button class="category-btn" onclick="location.href='BBS/bbs.html'">Board</button>
   </div>  
 
+  <!-- ✅ 上部バナー広告 -->
   <div style="margin: 2px auto 0; text-align: center; max-width: 728px;">
     <ins class="adsbygoogle"
          style="display:inline-block; width:100%; height:90px;"
@@ -129,11 +112,11 @@
          data-ad-slot="6566583745"></ins>
   </div>
 
-  <main id="chart-container" style="position:relative;">
+  <main id="chart-container">
     <!-- チャートがここに動的に挿入される -->
-    <div id="overlay-message"></div>
   </main>
 
+  <!-- ✅ チャート下 fluid 広告 -->
   <div id="bottom-ad-wrapper" style="margin: 6px auto 0; max-width: 800px; text-align: center; line-height: 0; overflow: hidden;">
     <ins id="bottom-ad"
          class="adsbygoogle"
@@ -146,7 +129,7 @@
 
   <div id="chart-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:9999;">
     <div style="background:#fff; padding:20px; border-radius:12px; max-width:90vw; max-height:90vh; position:relative;">
-      <button id="modal-close" style="position:absolute; top:10px; right:10px; background:#e11d48; color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">&times;</button>
+      <button id="modal-close" style="position:absolute; top:10px; right:10px; background:#e11d48; color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer;">×</button>
       <div id="modal-title" style="font-size:18px; font-weight:bold; text-align:center; margin-bottom:12px;"></div>
       <canvas id="modal-canvas" width="600" height="400"></canvas>
     </div>
@@ -168,6 +151,7 @@
   </footer>  
 
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
   <script src="data.js" defer></script>
   <script src="main.js" defer></script>
 
@@ -191,27 +175,29 @@
       }
     });
 
-    function updateOverlay(category) {
-      const overlay = document.getElementById('overlay-message');
-      if (!overlay) return;
+    // ✅ AdSense広告 遅延読み込み（IntersectionObserver）
+    function lazyLoadAds() {
+      const adSlots = document.querySelectorAll('ins.adsbygoogle[data-ad-slot]');
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            try {
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              obs.unobserve(entry.target);
+            } catch (e) {
+              console.warn("AdSense push failed:", e);
+            }
+          }
+        });
+      }, {
+        rootMargin: "100px 0px",
+        threshold: 0.01
+      });
 
-      if (category === 'indices') {
-        overlay.style.display = 'flex';
-        overlay.innerHTML = `
-          This category is currently sample data only.<br>
-          Official real-time data will be available soon.<br>
-          Please join discussions on the Board while you wait.
-        `;
-      } else if (category === 'forex' || category === 'crypto') {
-        overlay.style.display = 'flex';
-        overlay.innerHTML = `
-          Real-time data will be launched after traffic increases.<br>
-          Please stay active in the Board section meanwhile.
-        `;
-      } else {
-        overlay.style.display = 'none';
-      }
+      adSlots.forEach(ad => observer.observe(ad));
     }
+
+    window.addEventListener('DOMContentLoaded', lazyLoadAds);
   </script>
 </body>
 </html>
