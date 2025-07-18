@@ -1,4 +1,4 @@
-// ✅ main.js：チャート並び替え（スマホ・PC対応）＋並び順保存＋国旗長押し対策済み
+// ✅ main.js：チャート並び替え＋オーバーレイ実装（カテゴリ別メッセージ付き）
 
 document.addEventListener("DOMContentLoaded", () => {
   const chartContainer = document.getElementById("chart-container");
@@ -25,10 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function generateRandomChange(base) {
     const change = base * (Math.random() * 0.01 - 0.005);
     return base + change;
-  }
-
-  function getOverlayMessage(category) {
-    return "";
   }
 
   Chart.register({
@@ -70,16 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const title = document.createElement("div");
     title.className = "chart-title";
-
-    const flag = document.createElement("div");
-    flag.className = "chart-flag-bg";
-    flag.style.backgroundImage = `url(${indexData.flag})`;
-
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = indexData.name;
-
-    title.appendChild(flag);
-    title.appendChild(nameSpan);
+    title.innerHTML = `<img class="chart-flag" src="${indexData.flag}" /> ${indexData.name}`;
     card.appendChild(title);
 
     const canvas = document.createElement("canvas");
@@ -166,6 +153,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function addCategoryOverlay() {
+    const overlayMessage = {
+      indices: `This category is currently sample data only.\nOfficial real-time data will be available soon.\nPlease join discussions on the Board while you wait.`,
+      forex: `Real-time data will be launched after traffic increases.\nPlease stay active in the Board section meanwhile.`,
+      crypto: `Real-time data will be launched after traffic increases.\nPlease stay active in the Board section meanwhile.`
+    }[currentCategory];
+
+    if (!overlayMessage) return;
+
+    const cards = document.querySelectorAll(".chart-card");
+    cards.forEach(card => {
+      const overlay = document.createElement("div");
+      overlay.className = "chart-overlay";
+      overlay.textContent = overlayMessage;
+      card.appendChild(overlay);
+    });
+  }
+
   function loadChartsByCategory() {
     chartContainer.innerHTML = "";
     charts = [];
@@ -186,11 +191,13 @@ document.addEventListener("DOMContentLoaded", () => {
       animation: 150,
       ghostClass: "sortable-ghost",
       onEnd: () => {
-        const cards = chartContainer.querySelectorAll(".chart-card .chart-title span");
+        const cards = chartContainer.querySelectorAll(".chart-card .chart-title");
         const newOrder = Array.from(cards).map(el => el.textContent.trim());
         localStorage.setItem(`wmn_order_${currentCategory}`, JSON.stringify(newOrder));
       }
     });
+
+    addCategoryOverlay();
   }
 
   function showChartInModal(indexData) {
@@ -291,6 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // ✅ preventDefaultで文字選択抑制
   document.addEventListener("touchstart", function (e) {
     if (e.target.classList.contains("chart-drag-handle")) {
       e.preventDefault();
