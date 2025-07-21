@@ -135,6 +135,14 @@
     </div>
   </div>
 
+  <!-- 🔻 この1行をフッターの直前に追加 -->
+<div class="footer-visitors" style="text-align: center; margin-top: 20px; font-size: 14px;">
+  👁️ Now: <span id="visitors-now">--</span> /
+  Today: <span id="visitors-today">--</span> /
+  Yesterday: <span id="visitors-yesterday">--</span> /
+  Record: <span id="visitors-record">--</span>
+</div>
+
   <footer class="footer">
     <div class="footer-links">
       <a href="about.html">About</a>
@@ -152,8 +160,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
-  <script src="data.js" defer></script>
-  <script src="main.js" defer></script>
+  <script src="data.js"></script>
+  <script type="module" src="main.js"></script>
 
   <script>
     if ('serviceWorker' in navigator) {

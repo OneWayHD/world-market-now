@@ -1,3 +1,58 @@
+// ✅ Firebase訪問ログ送信（Functions）
+fetch("https://us-central1-world-market-now.cloudfunctions.net/logVisit")
+  .catch(err => console.error("訪問ログ送信失敗:", err));
+
+// ✅ Firebase 初期化（本物のConfigで差し替え済）
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBegpVTN1QihqgssCKkJDzTG17R8Tl--U8",
+  authDomain: "world-market-now.firebaseapp.com",
+  projectId: "world-market-now",
+  storageBucket: "world-market-now.firebasestorage.app",
+  messagingSenderId: "442033538783",
+  appId: "1:442033538783:web:fc86ddfe9284fbbd910b6a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ✅ 訪問者統計の表示処理
+async function showVisitStats() {
+  const today = new Date();
+  const yyyyMMdd = today.toISOString().split("T")[0];
+
+  const todaySnap = await getDoc(doc(db, "visits", yyyyMMdd));
+  const todayCount = todaySnap.exists() ? todaySnap.data().count : 0;
+  document.getElementById("visitors-today").textContent = todayCount;
+
+  const yesterday = new Date(today.getTime() - 86400000);
+  const yyyyMMddY = yesterday.toISOString().split("T")[0];
+  const ySnap = await getDoc(doc(db, "visits", yyyyMMddY));
+  const yCount = ySnap.exists() ? ySnap.data().count : 0;
+  document.getElementById("visitors-yesterday").textContent = yCount;
+
+  let nowCount = 0;
+if (todaySnap.exists()) {
+  const now = Date.now();
+  const timestamps = todaySnap.data().timestamps;
+  if (Array.isArray(timestamps)) {
+    nowCount = timestamps.filter(t => t.seconds * 1000 > now - 60000).length;
+  }
+}
+document.getElementById("visitors-now").textContent = nowCount;
+
+  const allDocs = await getDocs(collection(db, "visits"));
+  let max = 0;
+  allDocs.forEach(doc => {
+    if (doc.exists() && doc.data().count > max) max = doc.data().count;
+  });
+  document.getElementById("visitors-record").textContent = max;
+}
+
+showVisitStats();
+
 // ✅ main.js：チャート並び替え＋オーバーレイ実装（カテゴリ別メッセージ付き）
 
 document.addEventListener("DOMContentLoaded", () => {
