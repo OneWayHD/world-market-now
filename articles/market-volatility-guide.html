@@ -109,5 +109,60 @@
       Published: June 2025
     </p>
   </div>
+
+  <div class="footer-visitors" style="text-align: center; margin-top: 20px; font-size: 14px;">
+    👁️ Now: <span id="visitors-now">--</span> /
+    Today: <span id="visitors-today">--</span> /
+    Yesterday: <span id="visitors-yesterday">--</span> /
+    Record: <span id="visitors-record">--</span>
+  </div><footer class="footer">
+  <div class="footer-links">
+  <a href="about.html">About</a>
+  <a href="privacy.html">Privacy Policy</a>
+  <a href="terms.html">Terms of Use</a>
+  <a href="articles.html">Articles</a>
+  <a href="contact.html">Contact</a>
+  </div>
+  <p>
+  <a href="index.html" style="text-decoration: none; color: inherit;">
+        © 2025 World Market Now
+      </a>
+  </p>
+  </footer>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyBegpVTN1QihqgssCKkJDzTG17R8Tl--U8",
+      authDomain: "world-market-now.firebaseapp.com",
+      projectId: "world-market-now",
+      storageBucket: "world-market-now.appspot.com",
+      messagingSenderId: "442033538783",
+      appId: "1:442033538783:web:fc86ddfe9284fbbd910b6a"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+  
+    fetch("https://us-central1-world-market-now.cloudfunctions.net/logVisit", { method: "POST" });
+  
+    async function updateVisitorCounter() {
+      const today = new Date().toISOString().split("T")[0];
+      const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+  
+      const todaySnap = await getDoc(doc(db, "visits", today));
+      const yesterdaySnap = await getDoc(doc(db, "visits", yesterday));
+      const recordSnap = await getDoc(doc(db, "visits", "record"));
+  
+      document.getElementById("visitors-today").textContent = todaySnap.exists() ? todaySnap.data().count : 0;
+      document.getElementById("visitors-yesterday").textContent = yesterdaySnap.exists() ? yesterdaySnap.data().count : 0;
+      document.getElementById("visitors-record").textContent = recordSnap.exists() ? recordSnap.data().count : 0;
+      document.getElementById("visitors-now").textContent = 1;
+    }
+  
+    updateVisitorCounter();
+  </script>
+  
 </body>
 </html>
