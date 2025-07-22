@@ -1,73 +1,107 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About｜World Market Now</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="description" content="World Market Now is a real-time global market data site providing indices, forex, and cryptocurrency charts.">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About｜World Market Now</title>
+<link href="style.css" rel="stylesheet"/>
+<meta content="World Market Now is a real-time global market data site providing indices, forex, and cryptocurrency charts." name="description"/>
 </head>
 <body>
-
-  <!-- ✅ 追加：ヘッダー（ホームリンク付き） -->
-  <header style="text-align: center; padding: 24px 0; background-color: #0f172a;">
-    <a href="index.html" style="color: white; text-decoration: none; font-size: 24px; font-weight: bold;">
+<!-- ✅ 追加：ヘッダー（ホームリンク付き） -->
+<header style="text-align: center; padding: 24px 0; background-color: #0f172a;">
+<a href="index.html" style="color: white; text-decoration: none; font-size: 24px; font-weight: bold;">
       World Market Now
     </a>
-  </header>
-
-  <main style="max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.8;">
-    <h1>About this site</h1>
-
-    <h2>Overview</h2>
-    <p>
-      <strong>World Market Now (W.M.N.)</strong> is a real-time global market data site where users can view major financial indicators including stock indices, foreign exchange rates, and cryptocurrency prices.<br>
+</header>
+<main style="max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.8;">
+<h1>About this site</h1>
+<h2>Overview</h2>
+<p>
+<strong>World Market Now (W.M.N.)</strong> is a real-time global market data site where users can view major financial indicators including stock indices, foreign exchange rates, and cryptocurrency prices.<br/>
       The platform covers key markets across the United States, Europe, Asia, South America, and the Middle East in a clear and intuitive interface.
     </p>
-
-    <h2>Data Sources</h2>
-    <p>
-      All market data displayed on this site is retrieved via paid API access from <strong>Polygon.io</strong>.<br>
+<h2>Data Sources</h2>
+<p>
+      All market data displayed on this site is retrieved via paid API access from <strong>Polygon.io</strong>.<br/>
       The data may include real-time or slightly delayed values depending on the category and source.
     </p>
-
-    <h2>Disclaimer</h2>
-    <ul>
-      <li>We do not guarantee the accuracy or completeness of the information provided on this site.</li>
-      <li>This site does not offer investment advice. All information is for reference purposes only.</li>
-      <li>Users must make investment decisions at their own discretion and responsibility.</li>
-      <li>We are not liable for any damages or losses resulting from the use of this site.</li>
-    </ul>
-
-    <h2>Operator Information</h2>
-    <p>
-      Operating Company: <strong>One Way HD Co., Ltd.</strong><br>
-      Address:<br>
+<h2>Disclaimer</h2>
+<ul>
+<li>We do not guarantee the accuracy or completeness of the information provided on this site.</li>
+<li>This site does not offer investment advice. All information is for reference purposes only.</li>
+<li>Users must make investment decisions at their own discretion and responsibility.</li>
+<li>We are not liable for any damages or losses resulting from the use of this site.</li>
+</ul>
+<h2>Operator Information</h2>
+<p>
+      Operating Company: <strong>One Way HD Co., Ltd.</strong><br/>
+      Address:<br/>
       2F Ginza Shinrokusyu Building, 7-13-21 Ginza, Chuo-ku, Tokyo, Japan
     </p>
+<h2>Contact</h2>
+<p>
+      For inquiries, please use the form below:<br/>
+<a href="contact.html">▶ Contact Form</a>
+</p>
+</main>
+<!-- ✅ フッターを main の外に出して中央寄せを効かせる -->
 
-    <h2>Contact</h2>
-    <p>
-      For inquiries, please use the form below:<br>
-      <a href="contact.html">▶ Contact Form</a>
-    </p>
-  </main>
-
-  <!-- ✅ フッターを main の外に出して中央寄せを効かせる -->
-  <footer class="footer">
-    <div class="footer-links">
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Use</a>
-      <a href="articles.html">Articles</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <p>
-      <a href="index.html" style="text-decoration: none; color: inherit;">
-        &copy; 2025 World Market Now
+<div class="footer-visitors" style="text-align: center; margin-top: 20px; font-size: 14px;">
+  👁️ Now: <span id="visitors-now">--</span> /
+  Today: <span id="visitors-today">--</span> /
+  Yesterday: <span id="visitors-yesterday">--</span> /
+  Record: <span id="visitors-record">--</span>
+</div>
+<footer class="footer">
+<div class="footer-links">
+<a href="about.html">About</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms of Use</a>
+<a href="articles.html">Articles</a>
+<a href="contact.html">Contact</a>
+</div>
+<p>
+<a href="index.html" style="text-decoration: none; color: inherit;">
+        © 2025 World Market Now
       </a>
-    </p>
-  </footer>
-  
+</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBegpVTN1QihqgssCKkJDzTG17R8Tl--U8",
+    authDomain: "world-market-now.firebaseapp.com",
+    projectId: "world-market-now",
+    storageBucket: "world-market-now.appspot.com",
+    messagingSenderId: "442033538783",
+    appId: "1:442033538783:web:fc86ddfe9284fbbd910b6a"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  fetch("https://us-central1-world-market-now.cloudfunctions.net/logVisit", { method: "POST" });
+
+  async function updateVisitorCounter() {
+    const today = new Date().toISOString().split("T")[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+
+    const todaySnap = await getDoc(doc(db, "visits", today));
+    const yesterdaySnap = await getDoc(doc(db, "visits", yesterday));
+    const recordSnap = await getDoc(doc(db, "visits", "record"));
+
+    document.getElementById("visitors-today").textContent = todaySnap.exists() ? todaySnap.data().count : 0;
+    document.getElementById("visitors-yesterday").textContent = yesterdaySnap.exists() ? yesterdaySnap.data().count : 0;
+    document.getElementById("visitors-record").textContent = recordSnap.exists() ? recordSnap.data().count : 0;
+    document.getElementById("visitors-now").textContent = 1;
+  }
+
+  updateVisitorCounter();
+</script>
 </body>
 </html>

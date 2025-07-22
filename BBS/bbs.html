@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Community Board | World Market Now</title>
-  <link rel="stylesheet" href="../style.css" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community Board | World Market Now</title>
+<link href="../style.css" rel="stylesheet"/>
+<style>
     body {
       background-color: #f8fafc;
       font-family: 'Segoe UI', sans-serif;
@@ -140,88 +141,75 @@
       overflow: hidden;
     }
   </style>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182"
-          crossorigin="anonymous"></script>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3836772651637182"></script>
 </head>
 <body>
-  <header>
-    <h1>Community Board - W.M.N</h1>
-    <div style="text-align: center; margin-top: 6px;">
-      <a href="../index.html" style="color: #0ea5e9; text-decoration: underline; font-size: 14px;">
+<header>
+<h1>Community Board - W.M.N</h1>
+<div style="text-align: center; margin-top: 6px;">
+<a href="../index.html" style="color: #0ea5e9; text-decoration: underline; font-size: 14px;">
         ← Back to Home
       </a>
-    </div>
-  </header>
+</div>
+</header>
+<main>
+<div class="notice">
+<h3 onclick="toggleGuidelines()">📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span></h3>
+<div id="guidelines-content" style="display: none; margin-top: 8px;">
+<ul style="font-size: 13px; padding-left: 20px; text-align: left;">
+<li>⚠ All posts are public and viewable by anyone.</li>
+<li>🚫 Offensive, abusive, or inappropriate content is strictly prohibited.</li>
+<li>🧾 Posts must be at least 5 characters. Inappropriate posts may be reported or deleted.</li>
+<li>🔍 Content is reviewed and moderated by administrators.</li>
+<li>👤 Anonymous or temporary IDs are used, but violations may lead to restrictions.</li>
+<li>📄 See our <a href="../terms.html" target="_blank">Terms of Use</a> for details.</li>
+</ul>
+</div>
+</div>
+<a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
+<div class="category-tabs">
+<button class="category-tab active" data-category="Hot">🔥 Hot</button>
+<button class="category-tab" data-category="Indices &amp; Stocks">Indices &amp; Stocks</button>
+<button class="category-tab" data-category="Forex">Forex</button>
+<button class="category-tab" data-category="Crypto">Crypto</button>
+</div>
+<!-- ✅ カテゴリタブ下のバナー広告（slot: 1955101499） -->
+<div class="ad-slot" style="line-height: 0;">
+<ins class="adsbygoogle" data-ad-client="ca-pub-3836772651637182" data-ad-slot="1955101499" style="display:inline-block; width:100%; height:90px;"></ins>
+</div>
+<!-- 🧵 スレッド一覧 -->
+<ul class="thread-list" id="thread-list">
+<!-- JSで生成 -->
+</ul>
+<!-- ✅ 最下部 fluid 広告 -->
+<div id="bottom-ad-wrapper" style="margin-top: 12px; text-align: center; line-height: 0; min-height: 0;">
+<ins class="adsbygoogle" data-ad-client="ca-pub-3836772651637182" data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-slot="7970432232" id="bottom-ad" style="display:block; width:100%; height:auto;"></ins>
+</div>
+</main>
 
-  <main>
-    <div class="notice">
-      <h3 onclick="toggleGuidelines()">📌 Community Guidelines <span id="guidelines-toggle-symbol">▼</span></h3>
-      <div id="guidelines-content" style="display: none; margin-top: 8px;">
-        <ul style="font-size: 13px; padding-left: 20px; text-align: left;">
-          <li>⚠ All posts are public and viewable by anyone.</li>
-          <li>🚫 Offensive, abusive, or inappropriate content is strictly prohibited.</li>
-          <li>🧾 Posts must be at least 5 characters. Inappropriate posts may be reported or deleted.</li>
-          <li>🔍 Content is reviewed and moderated by administrators.</li>
-          <li>👤 Anonymous or temporary IDs are used, but violations may lead to restrictions.</li>
-          <li>📄 See our <a href="../terms.html" target="_blank">Terms of Use</a> for details.</li>
-        </ul>
-      </div>
-    </div>
-
-    <a class="create-button" href="bbs-create.html">＋ Create New Thread</a>
-
-    <div class="category-tabs">
-      <button class="category-tab active" data-category="Hot">🔥 Hot</button>
-      <button class="category-tab" data-category="Indices & Stocks">Indices & Stocks</button>
-      <button class="category-tab" data-category="Forex">Forex</button>
-      <button class="category-tab" data-category="Crypto">Crypto</button>
-    </div>
-
-    <!-- ✅ カテゴリタブ下のバナー広告（slot: 1955101499） -->
-    <div class="ad-slot" style="line-height: 0;">
-      <ins class="adsbygoogle"
-           style="display:inline-block; width:100%; height:90px;"
-           data-ad-client="ca-pub-3836772651637182"
-           data-ad-slot="1955101499"></ins>
-    </div>
-
-    <!-- 🧵 スレッド一覧 -->
-    <ul class="thread-list" id="thread-list">
-      <!-- JSで生成 -->
-    </ul>
-
-    <!-- ✅ 最下部 fluid 広告 -->
-    <div id="bottom-ad-wrapper" style="margin-top: 12px; text-align: center; line-height: 0; min-height: 0;">
-      <ins id="bottom-ad"
-           class="adsbygoogle"
-           style="display:block; width:100%; height:auto;"
-           data-ad-format="fluid"
-           data-ad-layout-key="-gw-3+1f-3d+2z"
-           data-ad-client="ca-pub-3836772651637182"
-           data-ad-slot="7970432232"></ins>
-    </div>
-  </main>
-
-  <footer>
-    <div class="footer-links">
-      <a href="../about.html">About</a>
-      <a href="../privacy.html">Privacy Policy</a>
-      <a href="../terms.html">Terms of Use</a>
-      <a href="../articles.html">Articles</a>
-      <a href="../contact.html">Contact</a>
-    </div>
-    <p style="text-align: center;">
-      <a href="../index.html" style="text-decoration: none; color: inherit;">
-        &copy; 2025 World Market Now
+<div class="footer-visitors" style="text-align: center; margin-top: 20px; font-size: 14px;">
+  👁️ Now: <span id="visitors-now">--</span> /
+  Today: <span id="visitors-today">--</span> /
+  Yesterday: <span id="visitors-yesterday">--</span> /
+  Record: <span id="visitors-record">--</span>
+</div>
+<footer>
+<div class="footer-links">
+<a href="../about.html">About</a>
+<a href="../privacy.html">Privacy Policy</a>
+<a href="../terms.html">Terms of Use</a>
+<a href="../articles.html">Articles</a>
+<a href="../contact.html">Contact</a>
+</div>
+<p style="text-align: center;">
+<a href="../index.html" style="text-decoration: none; color: inherit;">
+        © 2025 World Market Now
       </a>
-    </p>
-  </footer>
-
-  <script type="module" src="firebase-init.js"></script>
-  <script type="module" src="bbs.js?v=10003"></script>
-
-  <script>
+</p>
+</footer>
+<script src="firebase-init.js" type="module"></script>
+<script src="bbs.js?v=10003" type="module"></script>
+<script>
     function toggleGuidelines() {
       const box = document.getElementById('guidelines-content');
       const symbol = document.getElementById('guidelines-toggle-symbol');
@@ -264,5 +252,40 @@
       }, 800);
     });
   </script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBegpVTN1QihqgssCKkJDzTG17R8Tl--U8",
+    authDomain: "world-market-now.firebaseapp.com",
+    projectId: "world-market-now",
+    storageBucket: "world-market-now.appspot.com",
+    messagingSenderId: "442033538783",
+    appId: "1:442033538783:web:fc86ddfe9284fbbd910b6a"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  fetch("https://us-central1-world-market-now.cloudfunctions.net/logVisit", { method: "POST" });
+
+  async function updateVisitorCounter() {
+    const today = new Date().toISOString().split("T")[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+
+    const todaySnap = await getDoc(doc(db, "visits", today));
+    const yesterdaySnap = await getDoc(doc(db, "visits", yesterday));
+    const recordSnap = await getDoc(doc(db, "visits", "record"));
+
+    document.getElementById("visitors-today").textContent = todaySnap.exists() ? todaySnap.data().count : 0;
+    document.getElementById("visitors-yesterday").textContent = yesterdaySnap.exists() ? yesterdaySnap.data().count : 0;
+    document.getElementById("visitors-record").textContent = recordSnap.exists() ? recordSnap.data().count : 0;
+    document.getElementById("visitors-now").textContent = 1;
+  }
+
+  updateVisitorCounter();
+</script>
 </body>
 </html>
