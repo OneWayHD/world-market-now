@@ -317,6 +317,15 @@ document.addEventListener("DOMContentLoaded", () => {
       modalChart.data.datasets[0].data = modalChartData;
       modalChart.update();
     }, 1000);
+
+    // 🔽 ニュースと掲示板リンクの仮表示（API未契約時）
+document.getElementById("modal-related-news").innerHTML = `
+<p style="color:#666;"><em>Related news will appear here once available.</em></p>
+`;
+
+document.getElementById("modal-related-board").innerHTML = `
+<p><a href="BBS/bbs.html" class="anchor-link">👉 Visit the Board to discuss ${indexData.name}</a></p>
+`;
   }
 
   function closeModal() {

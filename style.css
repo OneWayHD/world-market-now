@@ -423,3 +423,19 @@ ins.adsbygoogle {
   color: #9ca3af;
   pointer-events: auto;
 }
+
+.modal-related-section {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #111;
+  line-height: 1.6;
+}
+
+.modal-related-section a {
+  color: #0ea5e9;
+  text-decoration: underline;
+}
+
+.modal-related-section a:hover {
+  color: #0369a1;
+}
